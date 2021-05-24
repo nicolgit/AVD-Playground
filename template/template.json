@@ -1,0 +1,1222 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "domainServices_demo_nicold_name": {
+            "defaultValue": "demo.nicold",
+            "type": "String"
+        },
+        "virtualMachines_romavm_0_name": {
+            "defaultValue": "romavm-0",
+            "type": "String"
+        },
+        "virtualMachines_milanovm_0_name": {
+            "defaultValue": "milanovm-0",
+            "type": "String"
+        },
+        "virtualMachines_milanovm_1_name": {
+            "defaultValue": "milanovm-1",
+            "type": "String"
+        },
+        "virtualNetworks_vwd_network_name": {
+            "defaultValue": "vwd-network",
+            "type": "String"
+        },
+        "publicIPAddresses_Server01_ip_name": {
+            "defaultValue": "Server01-ip",
+            "type": "String"
+        },
+        "networkInterfaces_romavm_0_nic_name": {
+            "defaultValue": "romavm-0-nic",
+            "type": "String"
+        },
+        "networkSecurityGroups_aadds_nsg_name": {
+            "defaultValue": "aadds-nsg",
+            "type": "String"
+        },
+        "hostpools_RomaPool_name": {
+            "defaultValue": "RomaPool",
+            "type": "String"
+        },
+        "networkInterfaces_milanovm_0_nic_name": {
+            "defaultValue": "milanovm-0-nic",
+            "type": "String"
+        },
+        "networkInterfaces_milanovm_1_nic_name": {
+            "defaultValue": "milanovm-1-nic",
+            "type": "String"
+        },
+        "networkInterfaces_milanovm_2_nic_name": {
+            "defaultValue": "milanovm-2-nic",
+            "type": "String"
+        },
+        "hostpools_MilanoPool_name": {
+            "defaultValue": "MilanoPool",
+            "type": "String"
+        },
+        "workspaces_WorkspaceRoma_name": {
+            "defaultValue": "WorkspaceRoma",
+            "type": "String"
+        },
+        "workspaces_WorkspaceMilano_name": {
+            "defaultValue": "WorkspaceMilano",
+            "type": "String"
+        },
+        "schedules_shutdown_computevm_romavm_0_name": {
+            "defaultValue": "shutdown-computevm-romavm-0",
+            "type": "String"
+        },
+        "schedules_shutdown_computevm_milanovm_0_name": {
+            "defaultValue": "shutdown-computevm-milanovm-0",
+            "type": "String"
+        },
+        "schedules_shutdown_computevm_milanovm_1_name": {
+            "defaultValue": "shutdown-computevm-milanovm-1",
+            "type": "String"
+        },
+        "applicationgroups_RomaPool_DAG_name": {
+            "defaultValue": "RomaPool-DAG",
+            "type": "String"
+        },
+        "applicationgroups_MilanoPool_DAG_name": {
+            "defaultValue": "MilanoPool-DAG",
+            "type": "String"
+        },
+        "applicationgroups_RomaPool_Applicazioni_name": {
+            "defaultValue": "RomaPool-Applicazioni",
+            "type": "String"
+        },
+        "loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name": {
+            "defaultValue": "aadds-c82f0134fdee4310a96f96d2429fe6f2-lb",
+            "type": "String"
+        },
+        "networkInterfaces_aadds_492e945e6ba248338e51f83df3ddd310_nic_name": {
+            "defaultValue": "aadds-492e945e6ba248338e51f83df3ddd310-nic",
+            "type": "String"
+        },
+        "networkInterfaces_aadds_b8b18b8b34094d389c11763affdd0856_nic_name": {
+            "defaultValue": "aadds-b8b18b8b34094d389c11763affdd0856-nic",
+            "type": "String"
+        },
+        "publicIPAddresses_aadds_c82f0134fdee4310a96f96d2429fe6f2_pip_name": {
+            "defaultValue": "aadds-c82f0134fdee4310a96f96d2429fe6f2-pip",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.DesktopVirtualization/hostpools",
+            "apiVersion": "2021-02-01-preview",
+            "name": "[parameters('hostpools_MilanoPool_name')]",
+            "location": "westeurope",
+            "properties": {
+                "description": "Created through the WVD extension",
+                "hostPoolType": "Pooled",
+                "customRdpProperty": "use multimon:i:0;screen mode id:i:1;smart sizing:i:1;desktop size id:i:3;",
+                "maxSessionLimit": 10,
+                "loadBalancerType": "BreadthFirst",
+                "validationEnvironment": false,
+                "vmTemplate": "{\"domain\":\"demo.nicold\",\"galleryImageOffer\":\"Windows-10\",\"galleryImagePublisher\":\"MicrosoftWindowsDesktop\",\"galleryImageSKU\":\"20h1-evd\",\"imageType\":\"Gallery\",\"imageUri\":null,\"customImageId\":null,\"namePrefix\":\"milanovm\",\"osDiskType\":\"Standard_LRS\",\"useManagedDisks\":true,\"vmSize\":{\"id\":\"Standard_D2s_v3\",\"cores\":2,\"ram\":8},\"galleryItemId\":\"Microsoftwindowsdesktop.windows-1020h1-evd\"}",
+                "preferredAppGroupType": "Desktop",
+                "startVMOnConnect": false
+            }
+        },
+        {
+            "type": "Microsoft.DesktopVirtualization/hostpools",
+            "apiVersion": "2021-02-01-preview",
+            "name": "[parameters('hostpools_RomaPool_name')]",
+            "location": "westeurope",
+            "properties": {
+                "description": "Created through the WVD extension",
+                "hostPoolType": "Pooled",
+                "customRdpProperty": "use multimon:i:0;screen mode id:i:1;desktop size id:i:3;desktopheight:i:768;desktopwidth:i:1280;",
+                "maxSessionLimit": 10,
+                "loadBalancerType": "BreadthFirst",
+                "validationEnvironment": false,
+                "vmTemplate": "{\"domain\":\"demo.nicold\",\"galleryImageOffer\":\"Windows-10\",\"galleryImagePublisher\":\"MicrosoftWindowsDesktop\",\"galleryImageSKU\":\"20h1-evd\",\"imageType\":\"Gallery\",\"imageUri\":null,\"customImageId\":null,\"namePrefix\":\"romavm\",\"osDiskType\":\"StandardSSD_LRS\",\"useManagedDisks\":true,\"vmSize\":{\"id\":\"Standard_D2s_v3\",\"cores\":2,\"ram\":8},\"galleryItemId\":\"Microsoftwindowsdesktop.windows-1020h1-evd\"}",
+                "preferredAppGroupType": "Desktop",
+                "startVMOnConnect": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('networkSecurityGroups_aadds_nsg_name')]",
+            "location": "westeurope",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "AllowPSRemoting",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "5986",
+                            "sourceAddressPrefix": "AzureActiveDirectoryDomainServices",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 301,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowRD",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "CorpNetSaw",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 201,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('publicIPAddresses_aadds_c82f0134fdee4310a96f96d2429fe6f2_pip_name')]",
+            "location": "westeurope",
+            "sku": {
+                "name": "Standard",
+                "tier": "Regional"
+            },
+            "zones": [
+                "1",
+                "2",
+                "3"
+            ],
+            "properties": {
+                "ipAddress": "20.76.4.58",
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Static",
+                "idleTimeoutInMinutes": 4,
+                "dnsSettings": {
+                    "domainNameLabel": "cust-d-e-m-o-0-n-i-c-o-l-d-c82f0134-fdee-4310-a96f-96d2429fe6f2",
+                    "fqdn": "cust-d-e-m-o-0-n-i-c-o-l-d-c82f0134-fdee-4310-a96f-96d2429fe6f2.westeurope.cloudapp.azure.com"
+                },
+                "ipTags": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('publicIPAddresses_Server01_ip_name')]",
+            "location": "westeurope",
+            "sku": {
+                "name": "Basic",
+                "tier": "Regional"
+            },
+            "properties": {
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "dnsSettings": {
+                    "domainNameLabel": "server01-nicold",
+                    "fqdn": "server01-nicold.westeurope.cloudapp.azure.com"
+                },
+                "ipTags": []
+            }
+        },
+        {
+            "type": "Microsoft.AAD/domainServices",
+            "apiVersion": "2021-03-01",
+            "name": "[parameters('domainServices_demo_nicold_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vwd_network_name'), 'subnet1')]"
+            ],
+            "properties": {
+                "domainName": "[parameters('domainServices_demo_nicold_name')]",
+                "replicaSets": [
+                    {
+                        "location": "West Europe",
+                        "subnetId": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vwd_network_name'), 'subnet1')]"
+                    }
+                ],
+                "ldapsSettings": {
+                    "ldaps": "Disabled",
+                    "externalAccess": "Disabled"
+                },
+                "domainSecuritySettings": {
+                    "ntlmV1": "Enabled",
+                    "tlsV1": "Enabled",
+                    "syncNtlmPasswords": "Enabled",
+                    "syncKerberosPasswords": "Enabled",
+                    "syncOnPremPasswords": "Enabled",
+                    "kerberosRc4Encryption": "Enabled",
+                    "kerberosArmoring": "Disabled"
+                },
+                "filteredSync": "Disabled",
+                "resourceForestSettings": {
+                    "settings": []
+                },
+                "domainConfigurationType": "FullySynced",
+                "notificationSettings": {
+                    "notifyGlobalAdmins": "Enabled",
+                    "notifyDcAdmins": "Enabled",
+                    "additionalRecipients": [
+                        "nicold@microsoft.com"
+                    ]
+                },
+                "sku": "Standard"
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2020-12-01",
+            "name": "[parameters('virtualMachines_milanovm_0_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_milanovm_0_nic_name'))]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_D2s_v3"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsDesktop",
+                        "offer": "Windows-10",
+                        "sku": "20h1-evd",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Windows",
+                        "name": "[concat(parameters('virtualMachines_milanovm_0_name'), '_OsDisk_1_c8b92e0b3ea141939d32c94630365958')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "id": "[resourceId('Microsoft.Compute/disks', concat(parameters('virtualMachines_milanovm_0_name'), '_OsDisk_1_c8b92e0b3ea141939d32c94630365958'))]"
+                        }
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_milanovm_0_name')]",
+                    "adminUsername": "nicola",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true,
+                        "patchSettings": {
+                            "patchMode": "AutomaticByOS"
+                        }
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true,
+                    "requireGuestProvisionSignal": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_milanovm_0_nic_name'))]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true
+                    }
+                },
+                "licenseType": "Windows_Client"
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2020-12-01",
+            "name": "[parameters('virtualMachines_milanovm_1_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_milanovm_1_nic_name'))]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_D2s_v3"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsDesktop",
+                        "offer": "Windows-10",
+                        "sku": "20h1-evd",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Windows",
+                        "name": "[concat(parameters('virtualMachines_milanovm_1_name'), '_OsDisk_1_c29f5cb3552c483fa53d74b919844d0a')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "id": "[resourceId('Microsoft.Compute/disks', concat(parameters('virtualMachines_milanovm_1_name'), '_OsDisk_1_c29f5cb3552c483fa53d74b919844d0a'))]"
+                        }
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_milanovm_1_name')]",
+                    "adminUsername": "nicola",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true,
+                        "patchSettings": {
+                            "patchMode": "AutomaticByOS"
+                        }
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true,
+                    "requireGuestProvisionSignal": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_milanovm_1_nic_name'))]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true
+                    }
+                },
+                "licenseType": "Windows_Client"
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2020-12-01",
+            "name": "[parameters('virtualMachines_romavm_0_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_romavm_0_nic_name'))]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_D2s_v3"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsDesktop",
+                        "offer": "Windows-10",
+                        "sku": "20h1-evd",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Windows",
+                        "name": "[concat(parameters('virtualMachines_romavm_0_name'), '_OsDisk_1_7ef7080cb1a34afabb517b4800d89b2b')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "id": "[resourceId('Microsoft.Compute/disks', concat(parameters('virtualMachines_romavm_0_name'), '_OsDisk_1_7ef7080cb1a34afabb517b4800d89b2b'))]"
+                        }
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_romavm_0_name')]",
+                    "adminUsername": "nicola",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true,
+                        "patchSettings": {
+                            "patchMode": "AutomaticByOS"
+                        }
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true,
+                    "requireGuestProvisionSignal": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_romavm_0_nic_name'))]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true
+                    }
+                },
+                "licenseType": "Windows_Client"
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2020-12-01",
+            "name": "[concat(parameters('virtualMachines_milanovm_0_name'), '/Microsoft.PowerShell.DSC')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_milanovm_0_name'))]"
+            ],
+            "properties": {
+                "autoUpgradeMinorVersion": true,
+                "publisher": "Microsoft.Powershell",
+                "type": "DSC",
+                "typeHandlerVersion": "2.73",
+                "settings": {
+                    "modulesUrl": "https://wvdportalstorageblob.blob.core.windows.net/galleryartifacts/Configuration_3-10-2021.zip",
+                    "configurationFunction": "Configuration.ps1\\AddSessionHost",
+                    "properties": {
+                        "hostPoolName": "MilanoPool",
+                        "registrationInfoToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg2Mjg0QjJDMkE5RTNFRTQxMzdFMTU3RTVFNzhCMzc4M0Y2QzA5NjEiLCJ0eXAiOiJKV1QifQ.eyJSZWdpc3RyYXRpb25JZCI6Ijg4ZTliODU1LWFmOTMtNDU1Zi1hNDYwLTEwMGU1NGI2NTc2OCIsIkJyb2tlclVyaSI6Imh0dHBzOi8vcmRicm9rZXItZy1ldS1yMC53dmQubWljcm9zb2Z0LmNvbS8iLCJEaWFnbm9zdGljc1VyaSI6Imh0dHBzOi8vcmRkaWFnbm9zdGljcy1nLWV1LXIwLnd2ZC5taWNyb3NvZnQuY29tLyIsIkVuZHBvaW50UG9vbElkIjoiYWY3NjU2ZjctY2Q0Ni00MzY3LWFiNzUtZjU0NmQ5ZDhjMDNkIiwiR2xvYmFsQnJva2VyVXJpIjoiaHR0cHM6Ly9yZGJyb2tlci53dmQubWljcm9zb2Z0LmNvbS8iLCJHZW9ncmFwaHkiOiJFVSIsIm5iZiI6MTYyMDkwMjA2MywiZXhwIjoxNjIwOTg4NDQ3LCJpc3MiOiJSREluZnJhVG9rZW5NYW5hZ2VyIiwiYXVkIjoiUkRtaSJ9.TvhhkN7yGCUO-rUgHKXBwwnFfq62JHmLw23PJsxa1kP7me_GUFvxFZm0NMWWeN2NWEs36PJHTuGCyGiwbl0z7u3CKbJmNEflWP4C-N7lAcrUZyku1mSNwbLmuSPapOuPJ6ztG3g5ZY9BXgh-95m47wYexsgnX5Q100tX23cIc5riIbzpA_N9jiYMlcdIeNt-b6SIJzHvcahMJnXfvB3QlM_P6Ygf3s9h5BrTz4LSN7fRvC4TGm5JxOGVoonLzIxFIAUFarhBSDQCbaxo_O-Fc4jCtJ32xVmhJJlOhYjS_ZgReukm9v-Dfe3u0qQuFYwMygYmvbr3Ynbnx3KTBRdcYw",
+                        "aadJoin": false
+                    }
+                },
+                "protectedSettings": {}
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2020-12-01",
+            "name": "[concat(parameters('virtualMachines_milanovm_1_name'), '/Microsoft.PowerShell.DSC')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_milanovm_1_name'))]"
+            ],
+            "properties": {
+                "autoUpgradeMinorVersion": true,
+                "publisher": "Microsoft.Powershell",
+                "type": "DSC",
+                "typeHandlerVersion": "2.73",
+                "settings": {
+                    "modulesUrl": "https://wvdportalstorageblob.blob.core.windows.net/galleryartifacts/Configuration_3-10-2021.zip",
+                    "configurationFunction": "Configuration.ps1\\AddSessionHost",
+                    "properties": {
+                        "hostPoolName": "MilanoPool",
+                        "registrationInfoToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg2Mjg0QjJDMkE5RTNFRTQxMzdFMTU3RTVFNzhCMzc4M0Y2QzA5NjEiLCJ0eXAiOiJKV1QifQ.eyJSZWdpc3RyYXRpb25JZCI6Ijg4ZTliODU1LWFmOTMtNDU1Zi1hNDYwLTEwMGU1NGI2NTc2OCIsIkJyb2tlclVyaSI6Imh0dHBzOi8vcmRicm9rZXItZy1ldS1yMC53dmQubWljcm9zb2Z0LmNvbS8iLCJEaWFnbm9zdGljc1VyaSI6Imh0dHBzOi8vcmRkaWFnbm9zdGljcy1nLWV1LXIwLnd2ZC5taWNyb3NvZnQuY29tLyIsIkVuZHBvaW50UG9vbElkIjoiYWY3NjU2ZjctY2Q0Ni00MzY3LWFiNzUtZjU0NmQ5ZDhjMDNkIiwiR2xvYmFsQnJva2VyVXJpIjoiaHR0cHM6Ly9yZGJyb2tlci53dmQubWljcm9zb2Z0LmNvbS8iLCJHZW9ncmFwaHkiOiJFVSIsIm5iZiI6MTYyMDkwMjA2MywiZXhwIjoxNjIwOTg4NDQ3LCJpc3MiOiJSREluZnJhVG9rZW5NYW5hZ2VyIiwiYXVkIjoiUkRtaSJ9.TvhhkN7yGCUO-rUgHKXBwwnFfq62JHmLw23PJsxa1kP7me_GUFvxFZm0NMWWeN2NWEs36PJHTuGCyGiwbl0z7u3CKbJmNEflWP4C-N7lAcrUZyku1mSNwbLmuSPapOuPJ6ztG3g5ZY9BXgh-95m47wYexsgnX5Q100tX23cIc5riIbzpA_N9jiYMlcdIeNt-b6SIJzHvcahMJnXfvB3QlM_P6Ygf3s9h5BrTz4LSN7fRvC4TGm5JxOGVoonLzIxFIAUFarhBSDQCbaxo_O-Fc4jCtJ32xVmhJJlOhYjS_ZgReukm9v-Dfe3u0qQuFYwMygYmvbr3Ynbnx3KTBRdcYw",
+                        "aadJoin": false
+                    }
+                },
+                "protectedSettings": {}
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2020-12-01",
+            "name": "[concat(parameters('virtualMachines_romavm_0_name'), '/Microsoft.PowerShell.DSC')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_romavm_0_name'))]"
+            ],
+            "properties": {
+                "autoUpgradeMinorVersion": true,
+                "publisher": "Microsoft.Powershell",
+                "type": "DSC",
+                "typeHandlerVersion": "2.73",
+                "settings": {
+                    "modulesUrl": "https://wvdportalstorageblob.blob.core.windows.net/galleryartifacts/Configuration_3-10-2021.zip",
+                    "configurationFunction": "Configuration.ps1\\AddSessionHost",
+                    "properties": {
+                        "hostPoolName": "RomaPool",
+                        "registrationInfoToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg2Mjg0QjJDMkE5RTNFRTQxMzdFMTU3RTVFNzhCMzc4M0Y2QzA5NjEiLCJ0eXAiOiJKV1QifQ.eyJSZWdpc3RyYXRpb25JZCI6IjBhMDJlYzQwLWIwMDUtNGUzZi05YTcwLTBiMmMzNmZlYjRiNyIsIkJyb2tlclVyaSI6Imh0dHBzOi8vcmRicm9rZXItZy1ldS1yMC53dmQubWljcm9zb2Z0LmNvbS8iLCJEaWFnbm9zdGljc1VyaSI6Imh0dHBzOi8vcmRkaWFnbm9zdGljcy1nLWV1LXIwLnd2ZC5taWNyb3NvZnQuY29tLyIsIkVuZHBvaW50UG9vbElkIjoiYjMzMzBjMjctMjYzYS00Yjg3LThmMGQtN2ViN2Q5MDBmZGNiIiwiR2xvYmFsQnJva2VyVXJpIjoiaHR0cHM6Ly9yZGJyb2tlci53dmQubWljcm9zb2Z0LmNvbS8iLCJHZW9ncmFwaHkiOiJFVSIsIm5iZiI6MTYyMDg5NjA5NiwiZXhwIjoxNjIwOTgyNDYzLCJpc3MiOiJSREluZnJhVG9rZW5NYW5hZ2VyIiwiYXVkIjoiUkRtaSJ9.QQo1QMoa31Zd1mb02_Vg4e7r9gvFDE4opFWh7OqyPRH27cmcFWo0m65tpnMaWhEmuZo9PcxabP5WGUTVTVfPGOaf4iPcQxzr8eQeeGAgRXGpaq6ahQZY72398wQPF0KRnxWxR0TT8gjVZHCnnBY7x3Eyo7V_iinSqMepSZFkAKY6a4fvlcm5ZupRvbfKPOIrOaNRVfLXNNi4x45F0Veq3vvXcb6h4z07JOCHk1-Ho2Xcz7Mi40cWSIp4FsaMWQpeiY5mtIBQ4d9bm5XvYq_sDNvoMmtvbHmkAhmuOybr5nZGHrmHoX1tSGJV7ioovAK0WgpqmAJcoFTZtChbn02CGQ",
+                        "aadJoin": false
+                    }
+                },
+                "protectedSettings": {}
+            }
+        },
+        {
+            "type": "Microsoft.DesktopVirtualization/applicationgroups",
+            "apiVersion": "2021-02-01-preview",
+            "name": "[parameters('applicationgroups_MilanoPool_DAG_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.DesktopVirtualization/hostpools', parameters('hostpools_MilanoPool_name'))]"
+            ],
+            "kind": "Desktop",
+            "properties": {
+                "hostPoolArmPath": "[resourceId('Microsoft.DesktopVirtualization/hostpools', parameters('hostpools_MilanoPool_name'))]",
+                "description": "Desktop Application Group created through the Hostpool Wizard",
+                "friendlyName": "Default Desktop",
+                "applicationGroupType": "Desktop"
+            }
+        },
+        {
+            "type": "Microsoft.DesktopVirtualization/applicationgroups",
+            "apiVersion": "2021-02-01-preview",
+            "name": "[parameters('applicationgroups_RomaPool_Applicazioni_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.DesktopVirtualization/hostpools', parameters('hostpools_RomaPool_name'))]"
+            ],
+            "kind": "RemoteApp",
+            "properties": {
+                "hostPoolArmPath": "[resourceId('Microsoft.DesktopVirtualization/hostpools', parameters('hostpools_RomaPool_name'))]",
+                "friendlyName": "[parameters('applicationgroups_RomaPool_Applicazioni_name')]",
+                "applicationGroupType": "RemoteApp"
+            }
+        },
+        {
+            "type": "Microsoft.DesktopVirtualization/applicationgroups",
+            "apiVersion": "2021-02-01-preview",
+            "name": "[parameters('applicationgroups_RomaPool_DAG_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.DesktopVirtualization/hostpools', parameters('hostpools_RomaPool_name'))]"
+            ],
+            "kind": "Desktop",
+            "properties": {
+                "hostPoolArmPath": "[resourceId('Microsoft.DesktopVirtualization/hostpools', parameters('hostpools_RomaPool_name'))]",
+                "description": "Desktop Application Group created through the Hostpool Wizard",
+                "friendlyName": "Default Desktop",
+                "applicationGroupType": "Desktop"
+            }
+        },
+        {
+            "type": "Microsoft.DesktopVirtualization/applicationgroups/applications",
+            "apiVersion": "2021-02-01-preview",
+            "name": "[concat(parameters('applicationgroups_RomaPool_Applicazioni_name'), '/Character Map')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.DesktopVirtualization/applicationgroups', parameters('applicationgroups_RomaPool_Applicazioni_name'))]"
+            ],
+            "properties": {
+                "friendlyName": "Character Map",
+                "filePath": "C:\\Windows\\system32\\charmap.exe",
+                "commandLineSetting": "DoNotAllow",
+                "showInPortal": true,
+                "iconPath": "C:\\Windows\\system32\\charmap.exe",
+                "iconIndex": 0,
+                "applicationType": "Inbuilt"
+            }
+        },
+        {
+            "type": "Microsoft.DesktopVirtualization/applicationgroups/applications",
+            "apiVersion": "2021-02-01-preview",
+            "name": "[concat(parameters('applicationgroups_RomaPool_Applicazioni_name'), '/Wordpad')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.DesktopVirtualization/applicationgroups', parameters('applicationgroups_RomaPool_Applicazioni_name'))]"
+            ],
+            "properties": {
+                "friendlyName": "Wordpad",
+                "filePath": "C:\\Program Files\\Windows NT\\Accessories\\wordpad.exe",
+                "commandLineSetting": "DoNotAllow",
+                "showInPortal": true,
+                "iconPath": "C:\\Program Files\\Windows NT\\Accessories\\wordpad.exe",
+                "iconIndex": 0,
+                "applicationType": "Inbuilt"
+            }
+        },
+        {
+            "type": "Microsoft.DesktopVirtualization/workspaces",
+            "apiVersion": "2021-02-01-preview",
+            "name": "[parameters('workspaces_WorkspaceMilano_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.DesktopVirtualization/applicationgroups', parameters('applicationgroups_MilanoPool_DAG_name'))]"
+            ],
+            "properties": {
+                "description": "Workspace Milano descrizione",
+                "friendlyName": "Workspace Milano",
+                "applicationGroupReferences": [
+                    "[resourceId('Microsoft.DesktopVirtualization/applicationgroups', parameters('applicationgroups_MilanoPool_DAG_name'))]"
+                ]
+            }
+        },
+        {
+            "type": "microsoft.devtestlab/schedules",
+            "apiVersion": "2018-09-15",
+            "name": "[parameters('schedules_shutdown_computevm_milanovm_0_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_milanovm_0_name'))]"
+            ],
+            "properties": {
+                "status": "Enabled",
+                "taskType": "ComputeVmShutdownTask",
+                "dailyRecurrence": {
+                    "time": "2200"
+                },
+                "timeZoneId": "Central European Standard Time",
+                "notificationSettings": {
+                    "status": "Enabled",
+                    "timeInMinutes": 30,
+                    "emailRecipient": "nicold@microsoft.com",
+                    "notificationLocale": "en"
+                },
+                "targetResourceId": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_milanovm_0_name'))]"
+            }
+        },
+        {
+            "type": "microsoft.devtestlab/schedules",
+            "apiVersion": "2018-09-15",
+            "name": "[parameters('schedules_shutdown_computevm_milanovm_1_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_milanovm_1_name'))]"
+            ],
+            "properties": {
+                "status": "Enabled",
+                "taskType": "ComputeVmShutdownTask",
+                "dailyRecurrence": {
+                    "time": "0000"
+                },
+                "timeZoneId": "Central European Standard Time",
+                "notificationSettings": {
+                    "status": "Enabled",
+                    "timeInMinutes": 30,
+                    "emailRecipient": "nicold@microsoft.com",
+                    "notificationLocale": "en"
+                },
+                "targetResourceId": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_milanovm_1_name'))]"
+            }
+        },
+        {
+            "type": "microsoft.devtestlab/schedules",
+            "apiVersion": "2018-09-15",
+            "name": "[parameters('schedules_shutdown_computevm_romavm_0_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_romavm_0_name'))]"
+            ],
+            "properties": {
+                "status": "Enabled",
+                "taskType": "ComputeVmShutdownTask",
+                "dailyRecurrence": {
+                    "time": "2000"
+                },
+                "timeZoneId": "Central European Standard Time",
+                "notificationSettings": {
+                    "status": "Enabled",
+                    "timeInMinutes": 30,
+                    "emailRecipient": "nicold@microsoft.com",
+                    "notificationLocale": "en"
+                },
+                "targetResourceId": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_romavm_0_name'))]"
+            }
+        },
+        {
+            "type": "Microsoft.Network/loadBalancers/backendAddressPools",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name'), '/J3VG7VMEBWPSZEYBe')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name'))]"
+            ],
+            "properties": {
+                "loadBalancerBackendAddresses": [
+                    {
+                        "name": "WVD-Plauground_aadds-b8b18b8b34094d389c11763affdd0856-nicN93H3HAJSWBCSYHIpcfg",
+                        "properties": {}
+                    },
+                    {
+                        "name": "WVD-Plauground_aadds-492e945e6ba248338e51f83df3ddd310-nicPWEJNM2KTDWRUUVIpcfg",
+                        "properties": {}
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/loadBalancers/inboundNatRules",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name'), '/N93H3HAJSWBCSYHPsh')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name'))]"
+            ],
+            "properties": {
+                "frontendIPConfiguration": {
+                    "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name')), '/frontendIPConfigurations/J3VG7VMEBWPSZEYFe')]"
+                },
+                "frontendPort": 5986,
+                "backendPort": 5986,
+                "enableFloatingIP": false,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp",
+                "enableTcpReset": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/loadBalancers/inboundNatRules",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name'), '/PWEJNM2KTDWRUUVPsh')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name'))]"
+            ],
+            "properties": {
+                "frontendIPConfiguration": {
+                    "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name')), '/frontendIPConfigurations/J3VG7VMEBWPSZEYFe')]"
+                },
+                "frontendPort": 5987,
+                "backendPort": 5986,
+                "enableFloatingIP": false,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp",
+                "enableTcpReset": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('networkInterfaces_milanovm_0_nic_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vwd_network_name'), 'subnetClients')]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig",
+                        "properties": {
+                            "privateIPAddress": "10.10.2.5",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vwd_network_name'), 'subnetClients')]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('networkInterfaces_milanovm_1_nic_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vwd_network_name'), 'subnetClients')]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig",
+                        "properties": {
+                            "privateIPAddress": "10.10.2.6",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vwd_network_name'), 'subnetClients')]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('networkInterfaces_milanovm_2_nic_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vwd_network_name'), 'subnetClients')]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig",
+                        "properties": {
+                            "privateIPAddress": "10.10.2.7",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vwd_network_name'), 'subnetClients')]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('networkInterfaces_romavm_0_nic_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vwd_network_name'), 'subnetClients')]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig",
+                        "properties": {
+                            "privateIPAddress": "10.10.2.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vwd_network_name'), 'subnetClients')]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(parameters('networkSecurityGroups_aadds_nsg_name'), '/AllowPSRemoting')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_aadds_nsg_name'))]"
+            ],
+            "properties": {
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "destinationPortRange": "5986",
+                "sourceAddressPrefix": "AzureActiveDirectoryDomainServices",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 301,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(parameters('networkSecurityGroups_aadds_nsg_name'), '/AllowRD')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_aadds_nsg_name'))]"
+            ],
+            "properties": {
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "destinationPortRange": "3389",
+                "sourceAddressPrefix": "CorpNetSaw",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 201,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('virtualNetworks_vwd_network_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_aadds_nsg_name'))]"
+            ],
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.10.0.0/16"
+                    ]
+                },
+                "dhcpOptions": {
+                    "dnsServers": [
+                        "10.10.1.4",
+                        "10.10.1.5"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "subnet1",
+                        "properties": {
+                            "addressPrefix": "10.10.1.0/24",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_aadds_nsg_name'))]"
+                            },
+                            "delegations": [],
+                            "privateEndpointNetworkPolicies": "Enabled",
+                            "privateLinkServiceNetworkPolicies": "Enabled"
+                        }
+                    },
+                    {
+                        "name": "subnetClients",
+                        "properties": {
+                            "addressPrefix": "10.10.2.0/24",
+                            "serviceEndpoints": [
+                                {
+                                    "service": "Microsoft.Storage",
+                                    "locations": [
+                                        "westeurope",
+                                        "northeurope"
+                                    ]
+                                }
+                            ],
+                            "delegations": [],
+                            "privateEndpointNetworkPolicies": "Enabled",
+                            "privateLinkServiceNetworkPolicies": "Enabled"
+                        }
+                    }
+                ],
+                "virtualNetworkPeerings": [],
+                "enableDdosProtection": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(parameters('virtualNetworks_vwd_network_name'), '/subnetClients')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_vwd_network_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "10.10.2.0/24",
+                "serviceEndpoints": [
+                    {
+                        "service": "Microsoft.Storage",
+                        "locations": [
+                            "westeurope",
+                            "northeurope"
+                        ]
+                    }
+                ],
+                "delegations": [],
+                "privateEndpointNetworkPolicies": "Enabled",
+                "privateLinkServiceNetworkPolicies": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.DesktopVirtualization/workspaces",
+            "apiVersion": "2021-02-01-preview",
+            "name": "[parameters('workspaces_WorkspaceRoma_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.DesktopVirtualization/applicationgroups', parameters('applicationgroups_RomaPool_DAG_name'))]",
+                "[resourceId('Microsoft.DesktopVirtualization/applicationgroups', parameters('applicationgroups_RomaPool_Applicazioni_name'))]"
+            ],
+            "properties": {
+                "description": "Workspace Roma Descrizione",
+                "friendlyName": "Workspace Roma",
+                "applicationGroupReferences": [
+                    "[resourceId('Microsoft.DesktopVirtualization/applicationgroups', parameters('applicationgroups_RomaPool_DAG_name'))]",
+                    "[resourceId('Microsoft.DesktopVirtualization/applicationgroups', parameters('applicationgroups_RomaPool_Applicazioni_name'))]"
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/loadBalancers",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_aadds_c82f0134fdee4310a96f96d2429fe6f2_pip_name'))]",
+                "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name'), 'J3VG7VMEBWPSZEYBe')]"
+            ],
+            "sku": {
+                "name": "Standard",
+                "tier": "Regional"
+            },
+            "properties": {
+                "frontendIPConfigurations": [
+                    {
+                        "name": "J3VG7VMEBWPSZEYFe",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_aadds_c82f0134fdee4310a96f96d2429fe6f2_pip_name'))]"
+                            },
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "backendAddressPools": [
+                    {
+                        "name": "J3VG7VMEBWPSZEYBe",
+                        "properties": {
+                            "loadBalancerBackendAddresses": [
+                                {
+                                    "name": "WVD-Plauground_aadds-b8b18b8b34094d389c11763affdd0856-nicN93H3HAJSWBCSYHIpcfg",
+                                    "properties": {}
+                                },
+                                {
+                                    "name": "WVD-Plauground_aadds-492e945e6ba248338e51f83df3ddd310-nicPWEJNM2KTDWRUUVIpcfg",
+                                    "properties": {}
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "loadBalancingRules": [],
+                "probes": [],
+                "inboundNatRules": [
+                    {
+                        "name": "N93H3HAJSWBCSYHPsh",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name')), '/frontendIPConfigurations/J3VG7VMEBWPSZEYFe')]"
+                            },
+                            "frontendPort": 5986,
+                            "backendPort": 5986,
+                            "enableFloatingIP": false,
+                            "idleTimeoutInMinutes": 15,
+                            "protocol": "Tcp",
+                            "enableTcpReset": false
+                        }
+                    },
+                    {
+                        "name": "PWEJNM2KTDWRUUVPsh",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name')), '/frontendIPConfigurations/J3VG7VMEBWPSZEYFe')]"
+                            },
+                            "frontendPort": 5987,
+                            "backendPort": 5986,
+                            "enableFloatingIP": false,
+                            "idleTimeoutInMinutes": 15,
+                            "protocol": "Tcp",
+                            "enableTcpReset": false
+                        }
+                    }
+                ],
+                "outboundRules": [
+                    {
+                        "name": "J3VG7VMEBWPSZEYGe",
+                        "properties": {
+                            "allocatedOutboundPorts": 1024,
+                            "protocol": "Tcp",
+                            "enableTcpReset": false,
+                            "idleTimeoutInMinutes": 4,
+                            "backendAddressPool": {
+                                "id": "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name'), 'J3VG7VMEBWPSZEYBe')]"
+                            },
+                            "frontendIPConfigurations": [
+                                {
+                                    "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name')), '/frontendIPConfigurations/J3VG7VMEBWPSZEYFe')]"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "inboundNatPools": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(parameters('virtualNetworks_vwd_network_name'), '/subnet1')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_vwd_network_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_aadds_nsg_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "10.10.1.0/24",
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_aadds_nsg_name'))]"
+                },
+                "delegations": [],
+                "privateEndpointNetworkPolicies": "Enabled",
+                "privateLinkServiceNetworkPolicies": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('networkInterfaces_aadds_492e945e6ba248338e51f83df3ddd310_nic_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vwd_network_name'), 'subnet1')]",
+                "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name'), 'J3VG7VMEBWPSZEYBe')]",
+                "[resourceId('Microsoft.Network/loadBalancers/inboundNatRules', parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name'), 'PWEJNM2KTDWRUUVPsh')]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "PWEJNM2KTDWRUUVIpcfg",
+                        "properties": {
+                            "privateIPAddress": "10.10.1.5",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vwd_network_name'), 'subnet1')]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4",
+                            "loadBalancerBackendAddressPools": [
+                                {
+                                    "id": "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name'), 'J3VG7VMEBWPSZEYBe')]"
+                                }
+                            ],
+                            "loadBalancerInboundNatRules": [
+                                {
+                                    "id": "[resourceId('Microsoft.Network/loadBalancers/inboundNatRules', parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name'), 'PWEJNM2KTDWRUUVPsh')]"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": [
+                        "10.10.1.4",
+                        "10.10.1.5"
+                    ]
+                },
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('networkInterfaces_aadds_b8b18b8b34094d389c11763affdd0856_nic_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vwd_network_name'), 'subnet1')]",
+                "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name'), 'J3VG7VMEBWPSZEYBe')]",
+                "[resourceId('Microsoft.Network/loadBalancers/inboundNatRules', parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name'), 'N93H3HAJSWBCSYHPsh')]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "N93H3HAJSWBCSYHIpcfg",
+                        "properties": {
+                            "privateIPAddress": "10.10.1.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vwd_network_name'), 'subnet1')]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4",
+                            "loadBalancerBackendAddressPools": [
+                                {
+                                    "id": "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name'), 'J3VG7VMEBWPSZEYBe')]"
+                                }
+                            ],
+                            "loadBalancerInboundNatRules": [
+                                {
+                                    "id": "[resourceId('Microsoft.Network/loadBalancers/inboundNatRules', parameters('loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name'), 'N93H3HAJSWBCSYHPsh')]"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": [
+                        "10.10.1.4",
+                        "10.10.1.5"
+                    ]
+                },
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false
+            }
+        }
+    ]
+}
