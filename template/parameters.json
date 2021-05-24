@@ -2,80 +2,11 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "domainServices_demo_nicold_name": {
-            "value": null
+        "virtualNetworks_name": {
+            "value": "wvd-network"
         },
-        "virtualMachines_romavm_0_name": {
-            "value": null
-        },
-        "virtualMachines_milanovm_0_name": {
-            "value": null
-        },
-        "virtualMachines_milanovm_1_name": {
-            "value": null
-        },
-        "virtualNetworks_vwd_network_name": {
-            "value": null
-        },
-        "publicIPAddresses_Server01_ip_name": {
-            "value": null
-        },
-        "networkInterfaces_romavm_0_nic_name": {
-            "value": null
-        },
-        "networkSecurityGroups_aadds_nsg_name": {
-            "value": null
-        },
-        "hostpools_RomaPool_name": {
-            "value": null
-        },
-        "networkInterfaces_milanovm_0_nic_name": {
-            "value": null
-        },
-        "networkInterfaces_milanovm_1_nic_name": {
-            "value": null
-        },
-        "networkInterfaces_milanovm_2_nic_name": {
-            "value": null
-        },
-        "hostpools_MilanoPool_name": {
-            "value": null
-        },
-        "workspaces_WorkspaceRoma_name": {
-            "value": null
-        },
-        "workspaces_WorkspaceMilano_name": {
-            "value": null
-        },
-        "schedules_shutdown_computevm_romavm_0_name": {
-            "value": null
-        },
-        "schedules_shutdown_computevm_milanovm_0_name": {
-            "value": null
-        },
-        "schedules_shutdown_computevm_milanovm_1_name": {
-            "value": null
-        },
-        "applicationgroups_RomaPool_DAG_name": {
-            "value": null
-        },
-        "applicationgroups_MilanoPool_DAG_name": {
-            "value": null
-        },
-        "applicationgroups_RomaPool_Applicazioni_name": {
-            "value": null
-        },
-        "loadBalancers_aadds_c82f0134fdee4310a96f96d2429fe6f2_lb_name": {
-            "value": null
-        },
-        "networkInterfaces_aadds_492e945e6ba248338e51f83df3ddd310_nic_name": {
-            "value": null
-        },
-        "networkInterfaces_aadds_b8b18b8b34094d389c11763affdd0856_nic_name": {
-            "value": null
-        },
-        "publicIPAddresses_aadds_c82f0134fdee4310a96f96d2429fe6f2_pip_name": {
-            "value": null
+        "location": {
+            "value": "westeurope"
         }
     }
 }
