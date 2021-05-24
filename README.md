@@ -69,7 +69,7 @@ Create a virtual network with the following characteristics:
 Create an Azure AD Domain Services with the following parameters:
 
 Basic
-* DNS domain name: \<yourtenantname\>.onmicrosoft.com
+* DNS domain name: demo.nicold
 * Region: any
 * SKU: standard
 * Forest type: user
