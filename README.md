@@ -62,7 +62,7 @@ Create a virtual network with the following characteristics:
 * Address space: 10.10.0.0/16
 * Subnets (name - range)
     * subnetAD - 10.10.1.0/24
-    * subnetClients - 10.10.2/24
+    * subnetClients - 10.10.2.0/24
    
 # Azure AD Domain Services
 
