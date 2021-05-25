@@ -32,6 +32,12 @@ This diagram shows the WVD playground we will create
 
 Users will have the following access:
 
+| User   | Application Groups                   |
+|--------|--------------------------------------|
+| User01 | RomaPoolDAG, MilanoPoolDAG, RomaApplications |
+| User02 | RomaApplications                     |
+| User03 | RomaApplications                     |
+
 
 
 # Prerequisites
@@ -43,7 +49,7 @@ in order to create this lab you need:
 
 # Azure Active Directory preparation
 
-I suggest to do this step just once, and keep accounts and group creted also when the lab will be destroyed. This because there is no cost associated.
+If you plan to create and destroy the lab, using the same Azure Active Directory, **it is important to delete and re-create these account each time you rebuild the environemnt**.
 
 | User UPN                                  | password       | role
 |-------------------------------------------|----------------|-------------------------
@@ -90,9 +96,107 @@ Synchronicazion
 Security Settings
 * keep all default settings
 
+when the deploy finish: **Fix the DNS following the recomendation shown on overview page** 
+
+# Create Host Pool 1 (Roma)
+
+use the following parameter to create the RomaPool
+
+Basic
+
+* Host pool name: RomaPool
+* Validating environment: No
+* Host pool type: Pooled
+* Load Balancing algorithm: Bread-first
+* Max Session limit: 2
+
+Virtual Machines
+
+* Add Virtual Machines: Yes
+* Resource Group: defaulted as host pool
+* Name Prefix RomeVm
+* Availability options: No infrastructure redundancy required
+* Image Type: Gallery
+* Image: Windows 10 Ent Multisession
+* VM Size: D2s v3
+* Number of VM: 1
+* OS disk type: Standard HDD
+* Virtual Network: vmw-network
+* subnet: subnetClients
+* Network Security Group: none
+* AD domain join UPN: user01@demo.nicold
+* password: \*********
+* Virtual Machine Admin account: myAdminAccount
+* password: \*********
+
+WorkSpace
+
+* Register desktop app group: Yes
+* Workspace Name: RomaWorkspace
+
+when the host pool is ready, add user1 to RomaPoolDAG Application group
 
 
+# Create Host Pool 2 (Milano)
 
+use the following parameter to create the RomaPool
+
+Basic
+
+* Host pool name: MilanoPool
+* Validating environment: No
+* Host pool type: Pooled
+* Load Balancing algorithm: Bread-first
+* Max Session limit: 2
+
+Virtual Machines
+
+* Add Virtual Machines: Yes
+* Resource Group: defaulted as host pool
+* Name Prefix RomeVm
+* Availability options: No infrastructure redundancy required
+* Image Type: Gallery
+* Image: Windows 10 Ent Multisession
+* VM Size: D2s v3
+* Number of VM: 2
+* OS disk type: Standard HDD
+* Virtual Network: vmw-network
+* subnet: subnetClients
+* Network Security Group: none
+* AD domain join UPN: user01@demo.nicold
+* password: \*********
+* Virtual Machine Admin account: myAdminAccount
+* password: \*********
+
+WorkSpace
+
+* Register desktop app group: Yes
+* Workspace Name: MilanoWorkspace
+
+when the host pool is ready, add user1 to MilanoPoolDAG Application group
+
+# Create an Additional Application group
+From Windows Virtual Desktop -> Application groups -> Create
+
+Basics
+
+* HostPool: RomaPool
+* Application Group Type: Remote App
+* Application GRoup Name: RomaApplications
+
+Applications
+* Start menu -> Character Map
+* Start menu -> Paint
+* Start menu -> Wordpad
+
+Assignments
+* User01
+* User02
+* User03
+
+Workspace
+* Register application group: YES
+* Register application group: RomaWorkspace
 
 
 ******************************************************************************************
