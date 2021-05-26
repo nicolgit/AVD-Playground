@@ -4,9 +4,9 @@ LOCATION="westeurope"
 
 DOMAIN="demo.nicold"
 AADDOMAIN="nicoladelfinooutlook.onmicrosoft.com"
+LOCATIONADDS="westeurope"
 
 RESOURCEGROUP="WVD-Playground"
-LOCATION = "westeurope"
 
 VNET="wvd-playground-network"
 VNETPREFIX="10.10.0.0/16"
