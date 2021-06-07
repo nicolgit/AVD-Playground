@@ -156,7 +156,7 @@ Virtual Machines
 
 * Add Virtual Machines: Yes
 * Resource Group: defaulted as host pool
-* Name Prefix RomeVm
+* Name Prefix MilanVm
 * Availability options: No infrastructure redundancy required
 * Image Type: Gallery
 * Image: Windows 10 Ent Multisession
