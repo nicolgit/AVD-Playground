@@ -121,6 +121,9 @@ Virtual Machines
 * VM Size: D2s v3
 * Number of VM: 1
 * OS disk type: Standard HDD
+* Boot Diagnostic: disabled
+* Specify domain or unit: Yes
+* Domain to Join: demo.nicold
 * Virtual Network: vmw-network
 * subnet: subnetClients
 * Network Security Group: none
@@ -160,6 +163,9 @@ Virtual Machines
 * VM Size: D2s v3
 * Number of VM: 2
 * OS disk type: Standard HDD
+* Boot Diagnostic: disabled
+* Specify domain or unit: Yes
+* Domain to Join: demo.nicold
 * Virtual Network: vmw-network
 * subnet: subnetClients
 * Network Security Group: none
