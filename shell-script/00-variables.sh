@@ -7,9 +7,9 @@ AADDOMAIN="nicoladelfinooutlook.onmicrosoft.com"
 LOCATIONADDS="westeurope"
 
 SUBSCRIPTIONID="efd828ab-4b87-4350-9f07-26ffc419ccdb"
-RESOURCEGROUP="WVD-Playground"
+RESOURCEGROUP="AVD-Playground"
 
-VNET="wvd-playground-network"
+VNET="avd-playground-network"
 VNETPREFIX="10.10.0.0/16"
 SUBNETAD="subnetAD"
 SUBNETADPREFIX="10.10.1.0/24"

@@ -1,18 +1,18 @@
-This Lab demonstrates how to create a fully functional Windows Virtual Desktop (WVD) on Azure, without an Active Directory on premise. Objective of this lab is to have a procedure easy and repeatable, so that in a very small ammout of time is possible to create an entire environment ad destroy it with no fear once finished. 
+This Lab demonstrates how to create a fully functional Azure Virtual Desktop (AVD) infrastructure on Azure, without an Active Directory on premise. Objective of this lab is to have a procedure easy and repeatable, so that in a very small ammout of time is possible to create an entire environment ad destroy it with no fear once finished. 
 
 # Playground design
 
-This diagram shows a typical <a href="https://docs.microsoft.com/en-us/azure/architecture/example-scenario/wvd/windows-virtual-desktop" target="_blank">architectural setup</a> for Windows Virtual Desktop
+This diagram shows a typical <a href="https://docs.microsoft.com/en-us/azure/architecture/example-scenario/wvd/windows-virtual-desktop" target="_blank">architectural setup</a> for Azure Virtual Desktop
 
-![Windows Virtual Desktop reference architecture](images/windows-virtual-desktop.png)
+![Azure Virtual Desktop reference architecture](images/azure-virtual-desktop.png)
 
 * The application endpoints are in the customer's on-premises network. ExpressRoute extends the on-premises network into the Azure cloud, and Azure AD Connect integrates the customer's
 * Active Directory Domain Services (AD DS) with Azure Active Directory (Azure AD).
-The Windows Virtual Desktop control plane handles Web Access, Gateway, Broker, Diagnostics, and extensibility components like REST APIs.
+The Azure Virtual Desktop control plane handles Web Access, Gateway, Broker, Diagnostics, and extensibility components like REST APIs.
 * The customer manages AD DS and Azure AD, Azure subscriptions, virtual networks, Azure Files or Azure NetApp Files, and the Windows Virtual Desktop host pools and workspaces.
 * To increase capacity, the customer uses two Azure subscriptions in a hub-spoke architecture, and connects them via virtual network peering.
 
-This diagram shows the WVD playground we will create
+This diagram shows the AVD playground we will create
 
 ![Lab Architecture](images/lab-architecture.png)
 
@@ -64,7 +64,7 @@ If you plan to create and destroy the lab, using the same Azure Active Directory
 # Virtual Network
 
 Create a virtual network with the following characteristics:
-* Name: wvd-network
+* Name: avd-network
 * Address space: 10.10.0.0/16
 * Subnets (name - range)
     * subnetAD - 10.10.1.0/24
@@ -81,7 +81,7 @@ Basic
 * Forest type: user
 
 Network
-* Virtual Network: wvd-network
+* Virtual Network: avd-network
 * Subnet: subnetAD
 * NSG: xxxxxxxxxxxxxxxxx
 
@@ -124,7 +124,7 @@ Virtual Machines
 * Boot Diagnostic: disabled
 * Specify domain or unit: Yes
 * Domain to Join: demo.nicold
-* Virtual Network: vmw-network
+* Virtual Network: avd-network
 * subnet: subnetClients
 * Network Security Group: none
 * AD domain join UPN: user01@demo.nicold
@@ -166,7 +166,7 @@ Virtual Machines
 * Boot Diagnostic: disabled
 * Specify domain or unit: Yes
 * Domain to Join: demo.nicold
-* Virtual Network: vmw-network
+* Virtual Network: avd-network
 * subnet: subnetClients
 * Network Security Group: none
 * AD domain join UPN: user01@demo.nicold
