@@ -41,14 +41,17 @@ az vm auto-shutdown \
 
 
 
-
-
-
-az group deployment create --resource-group <my-resource-group> --template-uri https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/201-vm-domain-join-existing/azuredeploy.json
-az group deployment create --resource-group <my-resource-group> --template-uri https://raw.githubusercontent.com/Nicolgit/azure-quickstart-templates/master/201-vm-domain-join-existing/azuredeploy.json
+# join VM to Domain
+az deployment group create \
+  --resource-group $RESOURCEGROUP \
+  --template-uri https://raw.githubusercontent.com/nicolgit/WVD-Playground/main/shell-script/ARM/joinAD.json \
+  --parameters  location=$LOCATION vmList=$FLOVM,client02 domainJoinUserName=$DOMAIN\\$USER1 domainJoinUserPassword=$PASSWORD domainFQDN=$DOMAIN \
+  --debug
 
 # esempio di parametri 
 #    --parameters "{ \"location\": { \"value\": \"westus\" } }" \
+#--parameters "{ \"location\": { \"value\": \"$LOCATION\" }, \"vmList\": { \"value\": \"$FLOVM,client02\" }, \"domainJoinUserName\": { \"value\": \"$DOMAIN\\$USER1\" }, \"domainJoinUserPassword\": { \"value\": \"$PASSWORD\" }, \"domainFQDN\": { \"value\": \"$DOMAIN\" } }" \
+
 
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
