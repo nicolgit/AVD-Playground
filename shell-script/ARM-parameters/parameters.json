@@ -1,0 +1,252 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "nestedTemplatesLocation": {
+        "value": "https://raw.githubusercontent.com/Azure/RDS-Templates/master/ARM-wvd-templates/nestedtemplates/"
+      },
+      "artifactsLocation": {
+        "value": "https://raw.githubusercontent.com/Azure/RDS-Templates/master/ARM-wvd-templates/DSC/Configuration.zip"
+      },
+      "hostpoolName": {
+        "value": "FirenzePool"
+      },
+      "hostpoolFriendlyName": {
+        "value": "FirenzePool"
+      },
+      "hostpoolDescription": {
+        "value": null
+      },
+      "hostpoolDiagnosticSettingsStorageAccount": {
+        "value": null
+      },
+      "hostpoolDiagnosticSettingsLogAnalyticsWorkspaceId": {
+        "value": null
+      },
+      "hostpoolDiagnosticSettingsEventHubName": {
+        "value": null
+      },
+      "hostpoolDiagnosticSettingsEventHubAuthorizationId": {
+        "value": null
+      },
+      "hostpoolDiagnosticSettingsLogCategories": {
+        "value": [
+          "Checkpoint",
+          "Error",
+          "Management",
+          "Connection",
+          "HostRegistration",
+          "AgentHealthStatus"
+        ]
+      },
+      "appGroupDiagnosticSettingsLogCategories": {
+        "value": [
+          "Checkpoint",
+          "Error",
+          "Management"
+        ]
+      },
+      "workspaceDiagnosticSettingsLogCategories": {
+        "value": [
+          "Checkpoint",
+          "Error",
+          "Management",
+          "Feed"
+        ]
+      },
+      "location": {
+        "value": "westeurope"
+      },
+      "workSpaceName": {
+        "value": "FirenzeWorkspace"
+      },
+      "workspaceLocation": {
+        "value": "westeurope"
+      },
+      "workspaceResourceGroup": {
+        "value": "workspaceresourcegrup"
+      },
+      "isNewWorkspace": {
+        "value": true
+      },
+      "allApplicationGroupReferences": {
+        "value": null
+      },
+      "addToWorkspace": {
+        "value": true
+      },
+      "administratorAccountUsername": {
+        "value": "user01@demo.nicold"
+      },
+      "administratorAccountPassword": {
+        "value": "pa.123.assword"
+      },
+      "vmAdministratorAccountUsername": {
+        "value": "nicola"
+      },
+      "vmAdministratorAccountPassword": {
+        "value": "password.123"
+      },
+      "availabilityOption": {
+        "value": "None"
+      },
+      "availabilitySetName": {
+        "value": null
+      },
+      "createAvailabilitySet": {
+        "value": null
+      },
+      "availabilitySetUpdateDomainCount": {
+        "value": 5
+      },
+      "availabilitySetFaultDomainCount": {
+        "value": 2
+      },
+      "availabilityZone": {
+        "value": 1
+      },
+      "vmResourceGroup": {
+        "value": "resourcegroup"
+      },
+      "vmLocation": {
+        "value": "westeurope"
+      },
+      "vmSize": {
+        "value": "Standard_D2s_v3"
+      },
+      "vmNumberOfInstances": {
+        "value": 2
+      },
+      "vmNamePrefix": {
+        "value": "Florence"
+      },
+      "vmImageType": {
+        "value": "Gallery"
+      },
+      "vmGalleryImageOffer": {
+        "value": "Windows-10"
+      },
+      "vmGalleryImagePublisher": {
+        "value": "MicrosoftWindowsDesktop"
+      },
+      "vmGalleryImageHasPlan": {
+        "value": null
+      },
+      "vmGalleryImageSKU": {
+        "value": "20h1-pro"
+      },
+      "vmImageVhdUri": {
+        "value": null
+      },
+      "vmCustomImageSourceId": {
+        "value": null
+      },
+      "vmDiskType": {
+        "value": "Standard_LRS"
+      },
+      "vmUseManagedDisks": {
+        "value": true
+      },
+      "storageAccountResourceGroupName": {
+        "value": null
+      },
+      "existingVnetName": {
+        "value": null
+      },
+      "existingSubnetName": {
+        "value": null
+      },
+      "virtualNetworkResourceGroupName": {
+        "value": null
+      },
+      "createNetworkSecurityGroup": {
+        "value": null
+      },
+      "networkSecurityGroupId": {
+        "value": null
+      },
+      "networkSecurityGroupRules": {
+        "value": []
+      },
+      "hostpoolType": {
+        "value": "Pooled"
+      },
+      "personalDesktopAssignmentType": {
+        "value": "Automatic"
+      },
+      "maxSessionLimit": {
+        "value": 10
+      },
+      "loadBalancerType": {
+        "value": "BreadthFirst"
+      },
+      "customRdpProperty": {
+        "value": null
+      },
+      "vmTemplate": {
+        "value": null
+      },
+      "tokenExpirationTime": {
+        "value": null
+      },
+      "hostpoolTags": {
+        "value": {}
+      },
+      "applicationGroupTags": {
+        "value": {}
+      },
+      "availabilitySetTags": {
+        "value": {}
+      },
+      "networkInterfaceTags": {
+        "value": {}
+      },
+      "networkSecurityGroupTags": {
+        "value": {}
+      },
+      "virtualMachineTags": {
+        "value": {}
+      },
+      "imageTags": {
+        "value": {}
+      },
+      "apiVersion": {
+        "value": "2019-12-10-preview"
+      },
+      "deploymentId": {
+        "value": null
+      },
+      "validationEnvironment": {
+        "value": null
+      },
+      "preferredAppGroupType": {
+        "value": "Desktop"
+      },
+      "ouPath": {
+        "value": null
+      },
+      "domain": {
+        "value": null
+      },
+      "aadJoin": {
+        "value": null
+      },
+      "intune": {
+        "value": null
+      },
+      "bootDiagnostics": {
+        "value": {
+          "enabled": false
+        }
+      },
+      "userAssignedIdentity": {
+        "value": null
+      },
+      "customConfigurationTemplateUrl": {
+        "value": null
+      },
+      "customConfigurationParameterUrl": {
+        "value": null
+      }
+    }
+  }
