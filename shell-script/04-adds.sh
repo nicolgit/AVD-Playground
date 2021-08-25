@@ -2,6 +2,7 @@
 
 source 00-variables.sh
 
+#Create Azure AD DS 
 az ad ds create \
   --domain $DOMAIN \
   --name $DOMAIN \
@@ -10,9 +11,8 @@ az ad ds create \
   --sku "Standard" \
   --replica-sets location="$LOCATIONADDS" subnet-id="/subscriptions/$SUBSCRIPTIONID/resourceGroups/$RESOURCEGROUP/providers/Microsoft.Network/virtualNetworks/$VNET/subnets/$SUBNETAD"
 
-# VERIFY WHAT MISSING AT THE END (I.E. dns ON VNET, ADMINISTRATOR IN IN GROUP ETC.)
 
-
+#fix default DNS 
 az network vnet update \
   --name $VNET \
   --resource-group $RESOURCEGROUP \
