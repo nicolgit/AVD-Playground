@@ -16,7 +16,7 @@ This diagram shows the AVD playground we will create
 
 ![Lab Architecture](images/lab-architecture.png)
 
-* a V-Net with 2 subnet
+* a V-Net with 2 subnets
     * subnetAD: in this subnet will be deployed an istance of Azure Active Directory Domain  Services. This full managed Active Domain will simplify the setup because  with few clicks you will have 2 Active Directory servers fully managed with an Azure AD Connect in place, an ideal configuration for WVD
     * subnetClients: in this subnet will be deployed all hosts (VM) used by WVD
 * 2 Host pools (MilanoPool and RomaPool)
