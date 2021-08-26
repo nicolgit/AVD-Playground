@@ -46,44 +46,5 @@ az vm auto-shutdown \
 # offer: Windows-10
 # sku: 20h1-pro
 
-
-
-exp_DATE=$(date -d "+10 days")
-exp_DATE_STRING=$(date -d "$exp_DATE" -Ins)
-
-az desktopvirtualization hostpool create \
-  --resource-group $RESOURCEGROUP \
-  --name FirenzePool \
-  --host-pool-type Pooled \
-  --load-balancer-type DepthFirst \
-  --location $LOCATION \
-  --personal-desktop-assignment-type Automatic \
-  --registration-info expiration-time="$exp_DATE_STRING" registration-token-operation="Update" \
-  --debug
-
-
-FLOVM=FlorenceVM
-
-
-az vm auto-shutdown \
-  --resource-group $RESOURCEGROUP \
-  --name $FLOVM \
-  --time 2030 \
-  --email "nicold@microsoft.com" \
-  --webhook "https://www.pippo.com"
-
-
-
-
-
-
-
-
-
-
-add machine to domain
-add machine to pool
-
-https://docs.microsoft.com/en-us/azure/virtual-desktop/create-host-pools-powershell
-
-https://github.com/Azure/RDS-Templates/tree/master/ARM-wvd-templates/CreateAndProvisionHostPool
+# https://docs.microsoft.com/en-us/azure/virtual-desktop/create-host-pools-powershell
+# https://github.com/Azure/RDS-Templates/tree/master/ARM-wvd-templates/CreateAndProvisionHostPool

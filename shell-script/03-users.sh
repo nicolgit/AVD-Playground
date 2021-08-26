@@ -26,9 +26,9 @@ az ad user create \
 az ad sp create-for-rbac --name "2565bd9d-da50-47d4-8b85-4c97f669dc36"
 
 GROUPID=$(az ad group create \
-  --display-name "AAD DC Administrators" \
+  --display-name $GROUPDISPLAYNAME \
   --description "Delegated group to administer Azure AD Domain Services" \
-  --mail-nickname "AADDCAdministrators" \
+  --mail-nickname $GROUPDISPLAYNAME \
   -o json \
   --query 'objectId' | sed 's/"//g')
 
