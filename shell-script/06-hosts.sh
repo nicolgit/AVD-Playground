@@ -2,10 +2,8 @@
 
 source 00-variables.sh
 
-
-
 # https://github.com/Azure/RDS-Templates/tree/master/ARM-wvd-templates/CreateAndProvisionHostPool
-PREFIX="Naples"
+PREFIX="Milano"
 
 DEPLOYMENTNAME="${PREFIX}Deployment${RANDOM}"
 POOLNAME="${PREFIX}Pool"

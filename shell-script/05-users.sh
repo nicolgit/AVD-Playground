@@ -23,8 +23,6 @@ az ad user create \
   --user-principal-name $USER3UPN \
   --force-change-password-next-login false 
 
-az ad sp create-for-rbac --name "2565bd9d-da50-47d4-8b85-4c97f669dc36"
-
 GROUPID=$(az ad group create \
   --display-name $GROUPDISPLAYNAME \
   --description "Delegated group to administer Azure AD Domain Services" \
@@ -35,3 +33,5 @@ GROUPID=$(az ad group create \
 az ad group member add \
   --group $GROUPID \
   --member-id $USER1ID
+
+# wait at least 1 hour and doublecheck that AD Connect have syncronized users before to go to the next step
