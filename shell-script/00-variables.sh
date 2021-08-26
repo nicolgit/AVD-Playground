@@ -6,7 +6,8 @@ DOMAIN="demo.nicold"
 AADDOMAIN="nicoladelfinooutlook.onmicrosoft.com"
 LOCATIONADDS="westeurope"
 
-SUBSCRIPTIONID="efd828ab-4b87-4350-9f07-26ffc419ccdb"
+SUBSCRIPTIONID=$(az account show | jq '.id' | sed 's/"//g')
+
 RESOURCEGROUP="AVD-Playground"
 
 VNET="avd-playground-network"
