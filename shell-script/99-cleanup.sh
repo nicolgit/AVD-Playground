@@ -8,6 +8,4 @@ az ad user delete --id $USER3UPN
 
 az ad group delete --group $GROUPDISPLAYNAME
 
-az desktopvirtualization hostpool delete --name "NaplesPool" --resource-group $RESOURCEGROUP --force true 
-
-az group delete $RESOURCEGROUP --no-wait
+az group delete --name $RESOURCEGROUP --no-wait
