@@ -1,4 +1,3 @@
-This Lab demonstrates how to create a fully functional Azure Virtual Desktop (AVD) infrastructure on Azure, without an Active Directory on premise. Objective of this lab is to have a procedure easy and repeatable, so that in a very small ammout of time is possible to create an entire environment ad destroy it with no fear once finished. 
 
 # Playground design
 
@@ -6,13 +5,13 @@ This diagram shows a typical <a href="https://docs.microsoft.com/en-us/azure/arc
 
 ![Azure Virtual Desktop reference architecture](images/azure-virtual-desktop.png)
 
-* The application endpoints are in the customer's on-premises network. ExpressRoute extends the on-premises network into the Azure cloud, and Azure AD Connect integrates the customer's
-* Active Directory Domain Services (AD DS) with Azure Active Directory (Azure AD).
-The Azure Virtual Desktop control plane handles Web Access, Gateway, Broker, Diagnostics, and extensibility components like REST APIs.
+* The application endpoints are in the customer's on-premises network. 
+* ExpressRoute extends the on-premises network into the Azure cloud, and Azure AD Connect integrates the customer's Active Directory Domain Services (AD DS) with Azure Active Directory (Azure AD).
+* The Azure Virtual Desktop control plane handles Web Access, Gateway, Broker, Diagnostics, and extensibility components like REST APIs.
 * The customer manages AD DS and Azure AD, Azure subscriptions, virtual networks, Azure Files or Azure NetApp Files, and the Windows Virtual Desktop host pools and workspaces.
-* To increase capacity, the customer uses two Azure subscriptions in a hub-spoke architecture, and connects them via virtual network peering.
+* To increase capacity, in this schema, the customer uses two Azure subscriptions in a hub-spoke architecture, and connects them via virtual network peering.
 
-This diagram shows the AVD playground we will create
+The diagram below shows the AVD playground we will create:
 
 ![Lab Architecture](images/lab-architecture.png)
 
@@ -47,6 +46,19 @@ in order to create this lab you need:
 * an Azure subscription (also Visual Studio subscribers benefit is ok)
 * an Azure Active Directory Tenant where you are able to create users, groups etc.
 
+> from cloud shell execute [00-variables.sh](shell-script/00-variables.sh) and [01-resource-group.sh](shell-script/01-resource-group.sh)
+
+# Virtual Network
+
+Create a virtual network with the following characteristics:
+* Name: avd-network
+* Address space: 10.10.0.0/16
+* Subnets (name - range)
+    * subnetAD - 10.10.1.0/24
+    * subnetClients - 10.10.2.0/24
+
+> from Azure cloud shell execute script `02-vnet.sh`
+
 # Azure Active Directory preparation
 
 If you plan to create and destroy the lab, using the same Azure Active Directory, **it is important to delete and re-create these account each time you rebuild the environemnt**.
@@ -57,19 +69,10 @@ If you plan to create and destroy the lab, using the same Azure Active Directory
 | user02@\<yourtenantname\>.onmicrosoft.com | pa.123.assword |standard user
 | user03@\<yourtenantname\>.onmicrosoft.com | pa.123.assword |standard user
 
-| Groups                                    | members 
-|-------------------------------------------|-----------------------------------
-| AAD DC Administrators                     | user01@\<yourtenantname\>.onmicrosoft.com
+Create a group named `AAD DC Administrators` and add `User01` as member.
 
-# Virtual Network
+> from azure cloud shell execute script `05-users` 
 
-Create a virtual network with the following characteristics:
-* Name: avd-network
-* Address space: 10.10.0.0/16
-* Subnets (name - range)
-    * subnetAD - 10.10.1.0/24
-    * subnetClients - 10.10.2.0/24
-   
 # Azure AD Domain Services
 
 Create an Azure AD Domain Services with the following parameters:
@@ -96,7 +99,17 @@ Synchronicazion
 Security Settings
 * keep all default settings
 
-when the deploy finish: **Fix the DNS following the recomendation shown on overview page** 
+when the deploy finish:
+* the activity coud require more than 1 hour for the fisr sync
+* Fix the DNS following the recomendation shown on overview page
+* access with user01 and user02 on portal.azure.com and change the password so that the password is replicated also back in AD
+
+# Assign User01 as ADDS Administrator
+
+| Groups                                    | members 
+|-------------------------------------------|-----------------------------------
+| AAD DC Administrators                     | user01@<yourtenantname\>.onmicrosoft.com
+
 
 # Create Host Pool 1 (Roma)
 
@@ -186,9 +199,9 @@ From Windows Virtual Desktop -> Application groups -> Create
 
 Basics
 
-* HostPool: RomaPool
-* Application Group Type: Remote App
-* Application GRoup Name: RomaApplications
+* HostPool: `RomaPool`
+* Application Group Type: `Remote App`
+* Application Group Name: `RomaApplications`
 
 Applications
 * Start menu -> Character Map
@@ -204,5 +217,11 @@ Workspace
 * Register application group: YES
 * Register application group: RomaWorkspace
 
+
+# Associate User01 to Desktop Rome and Milan
+From Windows Virtual Desktop -> Application groups 
+
+* Application Group: `MilanoPool-DAG` > Assignments: `user01`
+* Application Group: `RomaPool-DAG` > Assignments: `user01`
 
 ******************************************************************************************

@@ -8,7 +8,7 @@ LOCATIONADDS="westeurope"
 
 SUBSCRIPTIONID=$(az account show | jq '.id' | sed 's/"//g')
 
-RESOURCEGROUP="AVD-Playground"
+RESOURCEGROUP="avd-playground"
 
 VNET="avd-playground-network"
 VNETPREFIX="10.10.0.0/16"

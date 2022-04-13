@@ -1,10 +1,10 @@
-in order to work this solution require the followinf infrastructure on azure:
+in order to work, this solution requires the following infrastructure on Azure:
 
 * a Resource Group
 * a Storage Account
 * a Static Web App
 
-we will deploy everything via Az Cli
+we will deploy everything via Az CLI
 
 # Az Command Lin3 Interface (CLI)
 
