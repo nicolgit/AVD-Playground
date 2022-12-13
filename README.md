@@ -46,7 +46,7 @@ in order to create this lab you need:
 * an Azure subscription (also Visual Studio subscribers benefit is ok)
 * an Azure Active Directory Tenant where you are able to create users, groups etc.
 
-> from cloud shell execute [00-variables.sh](shell-script/00-variables.sh) and [01-resource-group.sh](shell-script/01-resource-group.sh)
+> from cloud shell execute [01-resource-group.sh](shell-script/01-resource-group.sh) using the command `source 01-resource-group.sh`
 
 # Virtual Network
 
@@ -71,7 +71,7 @@ If you plan to create and destroy the lab, using the same Azure Active Directory
 
 Create a group named `AAD DC Administrators` and add `User01` as member.
 
-> from azure cloud shell execute script `05-users` 
+> from azure cloud shell execute script `source 03-users.sh` 
 
 # Azure AD Domain Services
 
@@ -86,12 +86,16 @@ Basic
 Network
 * Virtual Network: avd-network
 * Subnet: subnetAD
-* NSG: xxxxxxxxxxxxxxxxx
 
 Administration
 * Notifications
     * All Global Administrators of the Azure AD directory.
     * Members of the AAD DC Administrators group.
+      * Add `User01` as administrator
+
+| Groups                                    | members 
+|-------------------------------------------|-----------------------------------
+| AAD DC Administrators                     | user01@<yourtenantname\>.onmicrosoft.com
 
 Synchronicazion
 * Synchronization type: All
@@ -100,16 +104,9 @@ Security Settings
 * keep all default settings
 
 when the deploy finish:
-* the activity coud require more than 1 hour for the fisr sync
+* the activity coud require more than 1 hour for the first sync
 * Fix the DNS following the recomendation shown on overview page
 * access with user01 and user02 on portal.azure.com and change the password so that the password is replicated also back in AD
-
-# Assign User01 as ADDS Administrator
-
-| Groups                                    | members 
-|-------------------------------------------|-----------------------------------
-| AAD DC Administrators                     | user01@<yourtenantname\>.onmicrosoft.com
-
 
 # Create Host Pool 1 (Roma)
 
