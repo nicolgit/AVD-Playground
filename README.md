@@ -114,38 +114,39 @@ use the following parameter to create the RomaPool
 
 Basic
 
-* Host pool name: RomaPool
-* Validating environment: No
-* Host pool type: Pooled
-* Load Balancing algorithm: Bread-first
-* Max Session limit: 2
+* Host pool name: `RomaPool`
+* Validating environment: `No`
+* Preferred app group type: `Desktop`
+* Host pool type: `Pooled`
+* Load Balancing algorithm: `Bread-first`
+* Max Session limit: `2`
 
 Virtual Machines
 
-* Add Virtual Machines: Yes
+* Add Virtual Machines: `Yes`
 * Resource Group: defaulted as host pool
-* Name Prefix RomeVm
-* Availability options: No infrastructure redundancy required
-* Image Type: Gallery
-* Image: Windows 10 Ent Multisession
-* VM Size: D2s v3
-* Number of VM: 1
-* OS disk type: Standard HDD
-* Boot Diagnostic: disabled
-* Specify domain or unit: Yes
-* Domain to Join: demo.nicold
-* Virtual Network: avd-network
-* subnet: subnetClients
-* Network Security Group: none
-* AD domain join UPN: user01@demo.nicold
+* Name Prefixç `RomeVm`
+* Availability options: `No infrastructure redundancy required`
+* Image Type: `Gallery`
+* Image: `Windows 11 Ent Multisession`
+* VM Size: `D2s v3`
+* Number of VM: `1`
+* OS disk type: `Standard HDD`
+* Boot Diagnostic: `disabled`
+* Virtual Network: `avd-network`
+* subnet: `subnetClients`
+* Network Security Group: `none`
+* directory join type: `Active Directory`
+* AD domain join UPN: `user01@demo.nicold`
 * password: \*********
-* Virtual Machine Admin account: myAdminAccount
+* Specify domain or unit: `no`
+* Virtual Machine Admin account: `myAdminAccount`
 * password: \*********
 
 WorkSpace
 
-* Register desktop app group: Yes
-* Workspace Name: RomaWorkspace
+* Register desktop app group: `Yes`
+* Workspace Name: `RomaWorkspace`
 
 when the host pool is ready, add user1 to RomaPoolDAG Application group
 
@@ -156,38 +157,41 @@ use the following parameter to create the RomaPool
 
 Basic
 
-* Host pool name: MilanoPool
-* Validating environment: No
-* Host pool type: Pooled
-* Load Balancing algorithm: Bread-first
-* Max Session limit: 2
+* Host pool name: `MilanoPool`
+* Validating environment: `No`
+* Host pool type: `Pooled`
+* Load Balancing algorithm: `Bread-first`
+* Max Session limit: `2`
 
 Virtual Machines
 
-* Add Virtual Machines: Yes
-* Resource Group: defaulted as host pool
-* Name Prefix MilanVm
-* Availability options: No infrastructure redundancy required
-* Image Type: Gallery
-* Image: Windows 10 Ent Multisession
-* VM Size: D2s v3
-* Number of VM: 2
-* OS disk type: Standard HDD
-* Boot Diagnostic: disabled
-* Specify domain or unit: Yes
-* Domain to Join: demo.nicold
-* Virtual Network: avd-network
-* subnet: subnetClients
-* Network Security Group: none
-* AD domain join UPN: user01@demo.nicold
+* Add Virtual Machines: `Yes`
+* Resource Group: `defaulted as host pool`
+* Name Prefix: `MilanVm`
+* Availability options: `No infrastructure redundancy required`
+* Image Type: `Gallery`
+* Image: `Windows 11 Ent Multisession`
+* VM Size: `D2s v3`
+* Number of VM: `2`
+* OS disk type: `Standard HDD`
+* Boot Diagnostic: `disabled`
+* Specify domain or unit: `Yes`
+ directory join type: `Active Directory`
+* AD domain join UPN: `user01@demo.nicold`
 * password: \*********
-* Virtual Machine Admin account: myAdminAccount
+* Specify domain or unit: `no`
+* Virtual Network: `avd-network`
+* subnet: `subnetClients`
+* Network Security Group: `none`
+* AD domain join UPN: `user01@demo.nicold`
+* password: \*********
+* Virtual Machine Admin account: `myAdminAccount`
 * password: \*********
 
 WorkSpace
 
-* Register desktop app group: Yes
-* Workspace Name: MilanoWorkspace
+* Register desktop app group: `Yes`
+* Workspace Name: `MilanoWorkspace`
 
 when the host pool is ready, add user1 to MilanoPoolDAG Application group
 
@@ -202,7 +206,7 @@ Basics
 
 Applications
 * Start menu -> Character Map
-* Start menu -> Paint
+* Start menu -> Microsoft Edge
 * Start menu -> Wordpad
 
 Assignments
@@ -221,4 +225,14 @@ From Windows Virtual Desktop -> Application groups
 * Application Group: `MilanoPool-DAG` > Assignments: `user01`
 * Application Group: `RomaPool-DAG` > Assignments: `user01`
 
-******************************************************************************************
+# Auto poweroff virtual machines
+For each machine, go to settings> auto-shutdown and enable an autoshutdown routine
+
+# Additional settings for `RomaPool` Hosts 
+go to `Settings`>`RDP Settings`
+  * Display Settings
+    * Multi Display Support: `No`
+    * Screen mode: `window`
+    * Dynamic resolution: `Session resolution updates as the local windows resizes`
+    * Desktop size: `1024x768`
+
