@@ -69,10 +69,6 @@ If you plan to create and destroy the lab, using the same Azure Active Directory
 | user02@\<yourtenantname\>.onmicrosoft.com | pa.123.assword |standard user
 | user03@\<yourtenantname\>.onmicrosoft.com | pa.123.assword |standard user
 
-Create a group named `AAD DC Administrators` and add `User01` as member.
-
-> from azure cloud shell execute script `source 03-users.sh` 
-
 # Azure AD Domain Services
 
 Create an Azure AD Domain Services with the following parameters:
