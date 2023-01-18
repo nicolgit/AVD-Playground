@@ -57,7 +57,7 @@ Create a virtual network with the following characteristics:
     * subnetAD - 10.10.1.0/24
     * subnetClients - 10.10.2.0/24
 
-> from Azure cloud shell execute script `02-vnet.sh`
+> from Azure cloud shell execute script [02-vnet.sh](shell-script/02-vnet.sh) using the command `source 02-vnet.sh`
 
 # Azure Active Directory preparation
 
