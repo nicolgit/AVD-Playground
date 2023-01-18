@@ -225,7 +225,7 @@ From Windows Virtual Desktop -> Application groups
 # Auto poweroff virtual machines
 For each machine, go to settings> auto-shutdown and enable an autoshutdown routine
 
-# Additional settings for `RomaPool` Hosts 
+# Additional settings for `RomaPool` and `MilanoPool` host pools 
 go to `Settings`>`RDP Settings`
   * Display Settings
     * Multi Display Support: `No`
