@@ -48,17 +48,6 @@ in order to create this lab you need:
 
 > from cloud shell execute [01-resource-group.sh](shell-script/01-resource-group.sh) using the command `source 01-resource-group.sh`
 
-# Virtual Network
-
-Create a virtual network with the following characteristics:
-* Name: avd-network
-* Address space: 10.10.0.0/16
-* Subnets (name - range)
-    * subnetAD - 10.10.1.0/24
-    * subnetClients - 10.10.2.0/24
-
-> from Azure cloud shell execute script `02-vnet.sh`
-
 # Azure Active Directory preparation
 
 If you plan to create and destroy the lab, using the same Azure Active Directory, **it is important to delete and re-create these account each time you rebuild the environemnt**.
@@ -71,17 +60,17 @@ If you plan to create and destroy the lab, using the same Azure Active Directory
 
 # Azure AD Domain Services
 
-Create an Azure AD Domain Services with the following parameters:
+From Azure portal, create an Azure AD Domain Services with the following parameters:
 
 Basic
-* DNS domain name: demo.nicold
-* Region: any
-* SKU: standard
-* Forest type: user
+* DNS domain name: `demo.nicold`
+* Region: `any`
+* SKU: `standard`
+* Forest type: `user`
 
 Network
-* Virtual Network: avd-network
-* Subnet: subnetAD
+* Virtual Network: `aadds-vnet`
+* Subnet: `aadds-subnet`
 
 Administration
 * Notifications
@@ -103,6 +92,25 @@ when the deploy finish:
 * the activity coud require more than 1 hour for the first sync
 * Fix the DNS following the recomendation shown on overview page
 * access with user01 and user02 on portal.azure.com and change the password so that the password is replicated also back in AD
+
+# Virtual Network
+The previous step creates also the following virtual network:
+* Name: `aadds-vnet`
+* Address space: `10.0.0.0/24`
+* Subnets (name - range)
+    * `aadds-subnet` - `10.0.0.0/24`
+
+On this virtual network you need to add another subnet for your host pools, as following:
+
+* Add the Address space: `10.0.1.0/24`
+* Subnets (name - range)
+    * `subnetClients` - `10.0.1.0/24`
+
+# Finalize AD Domain Services setup
+* Wait a least `2 hours` to allow AADDS service creation and first accounts sync from AAD to AADDS.
+* From Azure Portal, go to AADDS and fix the `DNS issue`
+* For each account (`User01`, `User02`, `User03`)
+  * Open an in private browser window, navigate to <https://account.activedirectory.windowsazure.com/ChangePassword.aspx> and change his password. This forces a user password sync AAD->AD and it is required to allows users to logon on virtual machines
 
 # Create Host Pool 1 (Roma)
 
