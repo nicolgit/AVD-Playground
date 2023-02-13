@@ -48,6 +48,17 @@ in order to create this lab you need:
 
 > from cloud shell execute [01-resource-group.sh](shell-script/01-resource-group.sh) using the command `source 01-resource-group.sh`
 
+# Virtual Network
+
+Create a virtual network with the following characteristics:
+* Name: avd-network
+* Address space: 10.10.0.0/16
+* Subnets (name - range)
+    * subnetAD - 10.10.1.0/24
+    * subnetClients - 10.10.2.0/24
+
+> from Azure cloud shell execute script `02-vnet.sh`
+
 # Azure Active Directory preparation
 
 If you plan to create and destroy the lab, using the same Azure Active Directory, **it is important to delete and re-create these account each time you rebuild the environemnt**.
@@ -58,6 +69,7 @@ If you plan to create and destroy the lab, using the same Azure Active Directory
 | user02@\<yourtenantname\>.onmicrosoft.com | pa.123.assword |standard user
 | user03@\<yourtenantname\>.onmicrosoft.com | pa.123.assword |standard user
 
+> from Azure cloud shell execute script [03-users.sh](shell-script/03-users.sh) using the command `source 03-users.sh`
 # Azure AD Domain Services
 
 From Azure portal, create an Azure AD Domain Services with the following parameters:
@@ -232,7 +244,7 @@ From Windows Virtual Desktop -> Application groups
 # Auto poweroff virtual machines
 For each machine, go to settings> auto-shutdown and enable an autoshutdown routine
 
-# Additional settings for `RomaPool` Hosts 
+# Additional settings for `RomaPool` and `MilanoPool` host pools 
 go to `Settings`>`RDP Settings`
   * Display Settings
     * Multi Display Support: `No`
