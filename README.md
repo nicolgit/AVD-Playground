@@ -48,17 +48,6 @@ in order to create this lab you need:
 
 > from cloud shell execute [01-resource-group.sh](shell-script/01-resource-group.sh) using the command `source 01-resource-group.sh`
 
-# Virtual Network
-
-Create a virtual network with the following characteristics:
-* Name: avd-network
-* Address space: 10.10.0.0/16
-* Subnets (name - range)
-    * subnetAD - 10.10.1.0/24
-    * subnetClients - 10.10.2.0/24
-
-> from Azure cloud shell execute script `02-vnet.sh`
-
 # Azure Active Directory preparation
 
 If you plan to create and destroy the lab, using the same Azure Active Directory, **it is important to delete and re-create these account each time you rebuild the environemnt**.
