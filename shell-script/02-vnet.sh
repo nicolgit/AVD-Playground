@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source 00-variables.sh
-
 #Create vnet
 az network vnet create \
   --name $VNET \

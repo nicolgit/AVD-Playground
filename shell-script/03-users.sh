@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source 00-variables.sh
-
 USER1JSON=$(az ad user create \
   --display-name $USER1 \
   --password $PASSWORD \
