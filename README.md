@@ -105,7 +105,7 @@ On this virtual network you need to add another subnet for your host pools, as f
 
 * Add the Address space: `10.0.1.0/24`
 * Subnets (name - range)
-    * `subnetClients` - `10.0.1.0/24`
+    * `clients-subnet` - `10.0.1.0/24`
 
 # Finalize AD Domain Services setup
 * Wait a least `2 hours` to allow AADDS service creation and first accounts sync from AAD to AADDS.
