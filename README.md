@@ -48,9 +48,9 @@ in order to create this lab you need:
 
 > from cloud shell execute [01-resource-group.sh](shell-script/01-resource-group.sh) using the command `source 01-resource-group.sh`
 
-# Azure Active Directory preparation
+# Entra Id demo users creation
 
-If you plan to create and destroy the lab, using the same Azure Active Directory, **it is important to delete and re-create these account each time you rebuild the environemnt**.
+If you plan to create and destroy the lab, using the same Entra Id tenant, **it is important to delete and re-create these account each time you rebuild the environemnt**.
 
 | User UPN                                  | password       | role
 |-------------------------------------------|----------------|-------------------------
@@ -59,9 +59,10 @@ If you plan to create and destroy the lab, using the same Azure Active Directory
 | user03@\<yourtenantname\>.onmicrosoft.com | pa.123.assword |standard user
 
 > from Azure cloud shell execute script [03-users.sh](shell-script/03-users.sh) using the command `source 03-users.sh`
-# Azure AD Domain Services
 
-From Azure portal, create an Azure AD Domain Services with the following parameters:
+# Microsoft Entra Domain Services
+
+From Azure portal, create a Microsoft Entra Domain Services with the following parameters:
 
 Basic
 * DNS domain name: `demo.nicold`
