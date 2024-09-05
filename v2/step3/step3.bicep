@@ -11,6 +11,8 @@ param milanDesktopGroupName string = 'milano-desktop'
 param milanRemoteAppGroupName string = 'milano-remoteapp'
 param milanWorkspaceName string = 'milano-workspace'
 
+param storageName string = 'avdplaygroundstoragenicolod'
+
 resource romaHostpool 'Microsoft.DesktopVirtualization/hostPools@2024-04-03' = {
   name: romehostpoolName
   location: location
@@ -89,3 +91,21 @@ resource milanWorkspace 'Microsoft.DesktopVirtualization/workspaces@2024-04-03' 
   }
 }
 
+resource storageAvd 'Microsoft.Storage/storageAccounts@2023-01-01' = {
+  name: storageName
+  location: location
+  sku: {
+    name: 'Standard_LRS'
+  }
+  kind: 'StorageV2'
+  properties: {
+    azureFilesIdentityBasedAuthentication: {
+      activeDirectoryProperties: {
+        domainGuid: subscription().tenantId
+        domainName: 'demo.nicold'
+      }
+      defaultSharePermission: 'StorageFileDataSmbShareReader'
+      directoryServiceOptions: 'AADDSS'
+    }
+  }
+}

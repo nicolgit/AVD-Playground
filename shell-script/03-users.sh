@@ -1,13 +1,11 @@
 #!/bin/bash
 
-USER1JSON=$(az ad user create \
+az ad user create \
   --display-name $USER1 \
   --password $PASSWORD \
   --user-principal-name $USER1UPN \
   --force-change-password-next-sign-in false \
-  -o json)
-
-USER1ID=$(echo $USER1JSON | jq '.objectId' | sed 's/"//g')
+  -o json
 
 az ad user create \
   --display-name $USER2 \
@@ -20,3 +18,6 @@ az ad user create \
   --password $PASSWORD \
   --user-principal-name $USER3UPN \
   --force-change-password-next-sign-in false 
+
+USER1_ID=$(az ad user show --id $USER1 | jq -r .id)
+az ad group member add --group "AAD DC Administrators"  --member-id $USER1_ID
