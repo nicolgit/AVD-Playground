@@ -1,17 +1,17 @@
 param location string = 'westeurope'
-param romehostpoolName string = 'rome-hostpool'
-param romePreferredAppGroupType string = 'Desktop'
-param romeDesktopGroupName string = 'roma-desktop'
-param romeRemoteAppGroupName string = 'roma-remoteapp'
-param romeWorkspaceName string = 'roma-workspace'
+var romehostpoolName = 'rome-hostpool'
+var romePreferredAppGroupType  = 'Desktop'
+var romeDesktopGroupName  = 'roma-desktop'
+var romeRemoteAppGroupName  = 'roma-remoteapp'
+var romeWorkspaceName  = 'roma-workspace'
 
-param milanhostpoolName string = 'milan-hostpool'
-param milanPreferredAppGroupType string = 'RailApplications'
-param milanDesktopGroupName string = 'milano-desktop'
-param milanRemoteAppGroupName string = 'milano-remoteapp'
-param milanWorkspaceName string = 'milano-workspace'
+var milanhostpoolName  = 'milan-hostpool'
+var milanPreferredAppGroupType  = 'RailApplications'
+var milanDesktopGroupName  = 'milano-desktop'
+var milanRemoteAppGroupName  = 'milano-remoteapp'
+var milanWorkspaceName  = 'milano-workspace'
 
-param storageName string = 'avdplaygroundstoragenicolod'
+param storageName string  = 'avdstorage{uniqueString(subscription().id)}'
 
 resource romaHostpool 'Microsoft.DesktopVirtualization/hostPools@2024-04-03' = {
   name: romehostpoolName

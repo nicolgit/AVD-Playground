@@ -3,7 +3,7 @@ param location string = 'italynorth'
 var domainservicesName = 'avd-domain-services'
 var domainName = 'demo.nicold'
 
-param domainServicesSubnetName string = 'dc-subnet'
+var domainServicesSubnetName = 'dc-subnet'
 var domainServicesNSGName = '${domainServicesSubnetName}-nsg'
 
 var avdnet = 'avd-playground-net'

@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.29.47.4906",
-      "templateHash": "6589624658957367078"
+      "templateHash": "17282697628667545254"
     }
   },
   "parameters": {
@@ -13,153 +13,149 @@
       "type": "string",
       "defaultValue": "westeurope"
     },
-    "romehostpoolName": {
+    "storageName": {
       "type": "string",
-      "defaultValue": "rome-hostpool"
-    },
-    "romePreferredAppGroupType": {
-      "type": "string",
-      "defaultValue": "Desktop"
-    },
-    "romeDesktopGroupName": {
-      "type": "string",
-      "defaultValue": "roma-desktop"
-    },
-    "romeRemoteAppGroupName": {
-      "type": "string",
-      "defaultValue": "roma-remoteapp"
-    },
-    "romeWorkspaceName": {
-      "type": "string",
-      "defaultValue": "roma-workspace"
-    },
-    "milanhostpoolName": {
-      "type": "string",
-      "defaultValue": "milan-hostpool"
-    },
-    "milanPreferredAppGroupType": {
-      "type": "string",
-      "defaultValue": "RailApplications"
-    },
-    "milanDesktopGroupName": {
-      "type": "string",
-      "defaultValue": "milano-desktop"
-    },
-    "milanRemoteAppGroupName": {
-      "type": "string",
-      "defaultValue": "milano-remoteapp"
-    },
-    "milanWorkspaceName": {
-      "type": "string",
-      "defaultValue": "milano-workspace"
+      "defaultValue": "avdstorage{uniqueString(subscription().id)}"
     }
+  },
+  "variables": {
+    "romehostpoolName": "rome-hostpool",
+    "romePreferredAppGroupType": "Desktop",
+    "romeDesktopGroupName": "roma-desktop",
+    "romeRemoteAppGroupName": "roma-remoteapp",
+    "romeWorkspaceName": "roma-workspace",
+    "milanhostpoolName": "milan-hostpool",
+    "milanPreferredAppGroupType": "RailApplications",
+    "milanDesktopGroupName": "milano-desktop",
+    "milanRemoteAppGroupName": "milano-remoteapp",
+    "milanWorkspaceName": "milano-workspace"
   },
   "resources": [
     {
       "type": "Microsoft.DesktopVirtualization/hostPools",
       "apiVersion": "2024-04-03",
-      "name": "[parameters('romehostpoolName')]",
+      "name": "[variables('romehostpoolName')]",
       "location": "[parameters('location')]",
       "properties": {
         "hostPoolType": "Pooled",
         "loadBalancerType": "BreadthFirst",
-        "preferredAppGroupType": "[parameters('romePreferredAppGroupType')]"
+        "preferredAppGroupType": "[variables('romePreferredAppGroupType')]"
       }
     },
     {
       "type": "Microsoft.DesktopVirtualization/applicationGroups",
       "apiVersion": "2024-04-03",
-      "name": "[parameters('romeDesktopGroupName')]",
+      "name": "[variables('romeDesktopGroupName')]",
       "location": "[parameters('location')]",
       "properties": {
         "applicationGroupType": "Desktop",
-        "hostPoolArmPath": "[resourceId('Microsoft.DesktopVirtualization/hostPools', parameters('romehostpoolName'))]"
+        "hostPoolArmPath": "[resourceId('Microsoft.DesktopVirtualization/hostPools', variables('romehostpoolName'))]"
       },
       "dependsOn": [
-        "[resourceId('Microsoft.DesktopVirtualization/hostPools', parameters('romehostpoolName'))]"
+        "[resourceId('Microsoft.DesktopVirtualization/hostPools', variables('romehostpoolName'))]"
       ]
     },
     {
       "type": "Microsoft.DesktopVirtualization/applicationGroups",
       "apiVersion": "2024-04-03",
-      "name": "[parameters('romeRemoteAppGroupName')]",
+      "name": "[variables('romeRemoteAppGroupName')]",
       "location": "[parameters('location')]",
       "properties": {
         "applicationGroupType": "RemoteApp",
-        "hostPoolArmPath": "[resourceId('Microsoft.DesktopVirtualization/hostPools', parameters('romehostpoolName'))]"
+        "hostPoolArmPath": "[resourceId('Microsoft.DesktopVirtualization/hostPools', variables('romehostpoolName'))]"
       },
       "dependsOn": [
-        "[resourceId('Microsoft.DesktopVirtualization/hostPools', parameters('romehostpoolName'))]"
+        "[resourceId('Microsoft.DesktopVirtualization/hostPools', variables('romehostpoolName'))]"
       ]
     },
     {
       "type": "Microsoft.DesktopVirtualization/workspaces",
       "apiVersion": "2024-04-03",
-      "name": "[parameters('romeWorkspaceName')]",
+      "name": "[variables('romeWorkspaceName')]",
       "location": "[parameters('location')]",
       "properties": {
         "applicationGroupReferences": [
-          "[resourceId('Microsoft.DesktopVirtualization/applicationGroups', parameters('romeDesktopGroupName'))]",
-          "[resourceId('Microsoft.DesktopVirtualization/applicationGroups', parameters('romeRemoteAppGroupName'))]"
+          "[resourceId('Microsoft.DesktopVirtualization/applicationGroups', variables('romeDesktopGroupName'))]",
+          "[resourceId('Microsoft.DesktopVirtualization/applicationGroups', variables('romeRemoteAppGroupName'))]"
         ]
       },
       "dependsOn": [
-        "[resourceId('Microsoft.DesktopVirtualization/applicationGroups', parameters('romeDesktopGroupName'))]",
-        "[resourceId('Microsoft.DesktopVirtualization/applicationGroups', parameters('romeRemoteAppGroupName'))]"
+        "[resourceId('Microsoft.DesktopVirtualization/applicationGroups', variables('romeDesktopGroupName'))]",
+        "[resourceId('Microsoft.DesktopVirtualization/applicationGroups', variables('romeRemoteAppGroupName'))]"
       ]
     },
     {
       "type": "Microsoft.DesktopVirtualization/hostPools",
       "apiVersion": "2024-04-03",
-      "name": "[parameters('milanhostpoolName')]",
+      "name": "[variables('milanhostpoolName')]",
       "location": "[parameters('location')]",
       "properties": {
         "hostPoolType": "Pooled",
         "loadBalancerType": "BreadthFirst",
-        "preferredAppGroupType": "[parameters('milanPreferredAppGroupType')]"
+        "preferredAppGroupType": "[variables('milanPreferredAppGroupType')]"
       }
     },
     {
       "type": "Microsoft.DesktopVirtualization/applicationGroups",
       "apiVersion": "2024-04-03",
-      "name": "[parameters('milanDesktopGroupName')]",
+      "name": "[variables('milanDesktopGroupName')]",
       "location": "[parameters('location')]",
       "properties": {
         "applicationGroupType": "Desktop",
-        "hostPoolArmPath": "[resourceId('Microsoft.DesktopVirtualization/hostPools', parameters('milanhostpoolName'))]"
+        "hostPoolArmPath": "[resourceId('Microsoft.DesktopVirtualization/hostPools', variables('milanhostpoolName'))]"
       },
       "dependsOn": [
-        "[resourceId('Microsoft.DesktopVirtualization/hostPools', parameters('milanhostpoolName'))]"
+        "[resourceId('Microsoft.DesktopVirtualization/hostPools', variables('milanhostpoolName'))]"
       ]
     },
     {
       "type": "Microsoft.DesktopVirtualization/applicationGroups",
       "apiVersion": "2024-04-03",
-      "name": "[parameters('milanRemoteAppGroupName')]",
+      "name": "[variables('milanRemoteAppGroupName')]",
       "location": "[parameters('location')]",
       "properties": {
         "applicationGroupType": "RemoteApp",
-        "hostPoolArmPath": "[resourceId('Microsoft.DesktopVirtualization/hostPools', parameters('milanhostpoolName'))]"
+        "hostPoolArmPath": "[resourceId('Microsoft.DesktopVirtualization/hostPools', variables('milanhostpoolName'))]"
       },
       "dependsOn": [
-        "[resourceId('Microsoft.DesktopVirtualization/hostPools', parameters('milanhostpoolName'))]"
+        "[resourceId('Microsoft.DesktopVirtualization/hostPools', variables('milanhostpoolName'))]"
       ]
     },
     {
       "type": "Microsoft.DesktopVirtualization/workspaces",
       "apiVersion": "2024-04-03",
-      "name": "[parameters('milanWorkspaceName')]",
+      "name": "[variables('milanWorkspaceName')]",
       "location": "[parameters('location')]",
       "properties": {
         "applicationGroupReferences": [
-          "[resourceId('Microsoft.DesktopVirtualization/applicationGroups', parameters('milanDesktopGroupName'))]",
-          "[resourceId('Microsoft.DesktopVirtualization/applicationGroups', parameters('milanRemoteAppGroupName'))]"
+          "[resourceId('Microsoft.DesktopVirtualization/applicationGroups', variables('milanDesktopGroupName'))]",
+          "[resourceId('Microsoft.DesktopVirtualization/applicationGroups', variables('milanRemoteAppGroupName'))]"
         ]
       },
       "dependsOn": [
-        "[resourceId('Microsoft.DesktopVirtualization/applicationGroups', parameters('milanDesktopGroupName'))]",
-        "[resourceId('Microsoft.DesktopVirtualization/applicationGroups', parameters('milanRemoteAppGroupName'))]"
+        "[resourceId('Microsoft.DesktopVirtualization/applicationGroups', variables('milanDesktopGroupName'))]",
+        "[resourceId('Microsoft.DesktopVirtualization/applicationGroups', variables('milanRemoteAppGroupName'))]"
       ]
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2023-01-01",
+      "name": "[parameters('storageName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "azureFilesIdentityBasedAuthentication": {
+          "activeDirectoryProperties": {
+            "domainGuid": "[subscription().tenantId]",
+            "domainName": "demo.nicold"
+          },
+          "defaultSharePermission": "StorageFileDataSmbShareReader",
+          "directoryServiceOptions": "AADDSS"
+        }
+      }
     }
   ]
 }
