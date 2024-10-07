@@ -4,4 +4,4 @@ az ad user delete --id user03@duckiesfarm.com
 
 az ad group delete --group "AAD DC Administrators"
 
-az group delete --name avd-playground --force-detion-types Microsoft.Compute/virtualMachines --yes
+az group delete --name avd-playground --force-deletion-types Microsoft.Compute/virtualMachines --no-wait --yes
