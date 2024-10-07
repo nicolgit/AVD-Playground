@@ -1,4 +1,5 @@
 param location string = 'westeurope'
+
 var romehostpoolName = 'rome-hostpool'
 var romePreferredAppGroupType  = 'Desktop'
 var romeDesktopGroupName  = 'roma-desktop'
@@ -11,7 +12,7 @@ var milanDesktopGroupName  = 'milano-desktop'
 var milanRemoteAppGroupName  = 'milano-remoteapp'
 var milanWorkspaceName  = 'milano-workspace'
 
-param storageName string  = 'avdstorage{uniqueString(subscription().id)}'
+var storageName = 'avdstorage${uniqueString(subscription().id)}'
 
 resource romaHostpool 'Microsoft.DesktopVirtualization/hostPools@2024-04-03' = {
   name: romehostpoolName
@@ -105,7 +106,7 @@ resource storageAvd 'Microsoft.Storage/storageAccounts@2023-01-01' = {
         domainName: 'demo.nicold'
       }
       defaultSharePermission: 'StorageFileDataSmbShareReader'
-      directoryServiceOptions: 'AADDSS'
+      directoryServiceOptions: 'AADDS'
     }
   }
 }

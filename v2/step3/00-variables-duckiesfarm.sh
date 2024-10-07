@@ -3,7 +3,7 @@
 LOCATION="westeurope"
 
 DOMAIN="demo.nicold"
-AADDOMAIN="auth.duckiesfarm.com"
+AADDOMAIN="duckiesfarm.com"
 
 SUBSCRIPTIONID=$(az account show | jq '.id' | sed 's/"//g')
 
