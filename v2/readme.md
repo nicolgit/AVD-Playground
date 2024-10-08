@@ -30,7 +30,9 @@ this step creates:
   * `source 01-users.sh `
 
 # step 4 *manual*
-* add virtual machines to pools
+* create rome pool with 1 machine
+* create milan pool with 2 machines
+
 
 # step 5 
 ...

@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.29.47.4906",
-      "templateHash": "131606832329046802"
+      "version": "0.30.23.60470",
+      "templateHash": "15238218701947214907"
     }
   },
   "parameters": {
@@ -30,13 +30,13 @@
         }
       },
       {
-        "name": "hosts01-subnet",
+        "name": "rome-hosts-subnet",
         "properties": {
           "addressPrefix": "10.30.3.0/24"
         }
       },
       {
-        "name": "hosts02-subnet",
+        "name": "milan-hosts-subnet",
         "properties": {
           "addressPrefix": "10.30.4.0/24"
         }

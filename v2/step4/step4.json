@@ -1,0 +1,64 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.30.23.60470",
+      "templateHash": "3218238063339192324"
+    }
+  },
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "romePoolSize": {
+      "type": "int",
+      "defaultValue": 2
+    }
+  },
+  "variables": {
+    "vnetName": "avd-playground-net",
+    "romeSubnetName": "rome-hosts-subnet"
+  },
+  "resources": [
+    {
+      "copy": {
+        "name": "vmRomeDisk",
+        "count": "[length(range(0, parameters('romePoolSize')))]"
+      },
+      "type": "Microsoft.Compute/disks",
+      "apiVersion": "2019-07-01",
+      "name": "[format('rome{0}disk', range(0, parameters('romePoolSize'))[copyIndex()])]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "creationData": {
+          "createOption": "Empty"
+        },
+        "diskSizeGB": 128
+      }
+    },
+    {
+      "copy": {
+        "name": "vmRomeNIC",
+        "count": "[length(range(0, parameters('romePoolSize')))]"
+      },
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2022-11-01",
+      "name": "[format('rome{0}nic', range(0, parameters('romePoolSize'))[copyIndex()])]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "subnet": "[reference(resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetName'), variables('romeSubnetName')), '2022-11-01', 'full')]",
+              "privateIPAllocationMethod": "Dynamic"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

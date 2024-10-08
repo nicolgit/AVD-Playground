@@ -47,8 +47,8 @@ resource addsnsg 'Microsoft.Network/networkSecurityGroups@2020-11-01' = {
 
 var subnets = [
     { name: 'AzureBastionSubnet', properties: { addressPrefix: '10.30.1.0/24' } }
-    { name: 'hosts01-subnet', properties: { addressPrefix: '10.30.3.0/24' } }
-    { name: 'hosts02-subnet', properties: { addressPrefix: '10.30.4.0/24' } }
+    { name: 'rome-hosts-subnet', properties: { addressPrefix: '10.30.3.0/24' } }
+    { name: 'milan-hosts-subnet', properties: { addressPrefix: '10.30.4.0/24' } }
     { name: domainServicesSubnetName
       properties: { 
         addressPrefix: '10.30.2.0/24' 
