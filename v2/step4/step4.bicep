@@ -1,8 +1,18 @@
-param location string = resourceGroup().location
+param location string = 'italynorth'
 param romePoolSize int = 2
 
 var vnetName = 'avd-playground-net'
 var romeSubnetName = 'rome-hosts-subnet'
+
+var vmUsername = 'nicola'
+var vmPassword = 'password.123'
+
+var vmSku = 'Standard_D2s_v3'
+
+var imagePublisher = 'MicrosoftWindowsDesktop'
+var imageOffer = 'office-365'
+var imageSku = 'win11-24h2-avd-m365'
+var imageVersion = 'latest'
 
 resource vmRomeDisk 'Microsoft.Compute/disks@2019-07-01' = [for i in range(0, romePoolSize): {
   name: 'rome${i}disk'
@@ -15,7 +25,6 @@ resource vmRomeDisk 'Microsoft.Compute/disks@2019-07-01' = [for i in range(0, ro
 
 resource vnet 'Microsoft.Network/virtualNetworks@2022-11-01' existing = {
   name: vnetName
-  scope: resourceGroup()
 }
 
 resource romeSubnet 'Microsoft.Network/virtualNetworks/subnets@2022-11-01' existing = {
@@ -23,20 +32,50 @@ resource romeSubnet 'Microsoft.Network/virtualNetworks/subnets@2022-11-01' exist
   name: romeSubnetName
 }
 
-ERRORE 
-//Value for reference id is missing. Path properties.ipConfigurations[0].properties.subnet. (Code: MissingJsonReferenceId)
-resource vmRomeNIC 'Microsoft.Network/networkInterfaces@2022-11-01' = [for i in range(0, romePoolSize): {
-  name: 'rome${i}nic'
+
+resource vmRomeNIC 'Microsoft.Network/networkInterfaces@2022-11-01' =  [for i in range(0, romePoolSize): {
+  name: 'rome-${i}-nic'
   location: location
   properties: {
     ipConfigurations: [ {
         name: 'ipconfig1'
         properties: {
-          subnet: romeSubnet
+          subnet: { id: romeSubnet.id}
           privateIPAllocationMethod: 'Dynamic'
         }
       }
     ]
+  }
+}]
+
+resource vmRome 'Microsoft.Compute/virtualMachines@2022-11-01' = [for i in range(0, romePoolSize): {
+  name: 'rome-${i}-vm'
+  location: location
+  dependsOn: []
+  properties: {
+    hardwareProfile: { vmSize: vmSku }
+    storageProfile: {
+      imageReference: { publisher: imagePublisher, offer: imageOffer, sku: imageSku, version: imageVersion }
+      dataDisks: [ {
+          lun: 0
+          name: vmRomeDisk[i].name
+          createOption: 'Attach'
+          managedDisk: { id: vmRomeDisk[i].id }
+        }
+      ]
+    }
+    osProfile: {
+      computerName: 'rome-${i}-vm'
+      adminUsername: vmUsername
+      adminPassword: vmPassword
+      windowsConfiguration: { enableAutomaticUpdates: true }
+    }
+    networkProfile: {
+      networkInterfaces: [ {
+          id: vmRomeNIC[i].id
+        }
+      ]
+    }
   }
 }]
 
