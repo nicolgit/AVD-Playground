@@ -1,28 +1,25 @@
 param location string = 'italynorth'
-param romePoolSize int = 2
+param romePoolSize int = 1
+param milanPoolSize int = 2
+param vmSku string = 'Standard_D2_v5'
 
 var vnetName = 'avd-playground-net'
 var romeSubnetName = 'rome-hosts-subnet'
+var milanSubnetName = 'milan-hosts-subnet'
 
 var vmUsername = 'nicola'
 var vmPassword = 'password.123'
-
-var vmSku = 'Standard_D2s_v3'
 
 var imagePublisher = 'MicrosoftWindowsDesktop'
 var imageOffer = 'office-365'
 var imageSku = 'win11-24h2-avd-m365'
 var imageVersion = 'latest'
 
-resource vmRomeDisk 'Microsoft.Compute/disks@2019-07-01' = [for i in range(0, romePoolSize): {
-  name: 'rome${i}disk'
-  location: location
-  properties: {
-    creationData: { createOption: 'Empty' }
-    diskSizeGB: 128
-  }
-}]
+var domainToJoin = 'demo.nicold'
+var domainAdministratorAccountUserName = 'user01@demo.nicold'
+var domainAdministratorAccountPassword = 'pa.123.assword' 
 
+// reference to existing resources
 resource vnet 'Microsoft.Network/virtualNetworks@2022-11-01' existing = {
   name: vnetName
 }
@@ -32,6 +29,20 @@ resource romeSubnet 'Microsoft.Network/virtualNetworks/subnets@2022-11-01' exist
   name: romeSubnetName
 }
 
+resource milanSubnet 'Microsoft.Network/virtualNetworks/subnets@2022-11-01' existing = {
+  parent: vnet
+  name: milanSubnetName
+}
+
+// create rome VMs
+resource vmRomeDisk 'Microsoft.Compute/disks@2019-07-01' = [for i in range(0, romePoolSize): {
+  name: 'rome${i}disk'
+  location: location
+  properties: {
+    creationData: { createOption: 'Empty' }
+    diskSizeGB: 128
+  }
+}]
 
 resource vmRomeNIC 'Microsoft.Network/networkInterfaces@2022-11-01' =  [for i in range(0, romePoolSize): {
   name: 'rome-${i}-nic'
@@ -79,68 +90,87 @@ resource vmRome 'Microsoft.Compute/virtualMachines@2022-11-01' = [for i in range
   }
 }]
 
-/*
-//VM HUB
-
-
-resource vmHubNIC 'Microsoft.Network/networkInterfaces@2019-09-01' = if (deployVmHub) {
-  name: vmHubNICName
+questo step non è stato ancora testato
+resource joinRomeToDomain 'Microsoft.Compute/virtualMachines/extensions@2021-11-01' = [for i in range(0, romePoolSize): {
+  name: 'rome-${i}-vm/joindomain'
   location: location
-  dependsOn: [ hubLabVnet ]
+  properties: {
+    publisher: 'Microsoft.Compute'
+    type: 'JsonADDomainExtension'
+    typeHandlerVersion: '1.3'
+    autoUpgradeMinorVersion: true
+    settings: {
+      name: domainToJoin
+      //ouPath: ouPath
+      user: domainAdministratorAccountUserName
+      restart: 'true'
+      options: '3'
+      NumberOfRetries: '4'
+      RetryIntervalInMilliseconds: '30000'
+    }
+    protectedSettings: {
+      password: domainAdministratorAccountPassword
+    }
+  }
+  dependsOn: [
+    vmRome[i]
+  ]
+}]
+
+
+// create milan VMs
+resource vmMilanDisk 'Microsoft.Compute/disks@2019-07-01' = [for i in range(0, milanPoolSize): {
+  name: 'milan${i}disk'
+  location: location
+  properties: {
+    creationData: { createOption: 'Empty' }
+    diskSizeGB: 128
+  }
+}]
+
+resource vmMilanNIC 'Microsoft.Network/networkInterfaces@2022-11-01' =  [for i in range(0, milanPoolSize): {
+  name: 'milan-${i}-nic'
+  location: location
   properties: {
     ipConfigurations: [ {
         name: 'ipconfig1'
         properties: {
-          subnet: { id: resourceId('Microsoft.Network/virtualNetworks/subnets', hublabName, 'DefaultSubnet') }
+          subnet: { id: milanSubnet.id}
           privateIPAllocationMethod: 'Dynamic'
         }
       }
     ]
   }
-}
+}]
 
-resource vmHub 'Microsoft.Compute/virtualMachines@2019-07-01' = if (deployVmHub) {
-  name: vmHubName
+resource vmMilan 'Microsoft.Compute/virtualMachines@2022-11-01' = [for i in range(0, milanPoolSize): {
+  name: 'milan-${i}-vm'
   location: location
   dependsOn: []
   properties: {
-    hardwareProfile: { vmSize: virtualMachineSKU }
+    hardwareProfile: { vmSize: vmSku }
     storageProfile: {
-      imageReference: { publisher: 'MicrosoftWindowsServer', offer: 'WindowsServer', sku: '2019-Datacenter', version: 'latest' }
+      imageReference: { publisher: imagePublisher, offer: imageOffer, sku: imageSku, version: imageVersion }
       dataDisks: [ {
           lun: 0
-          name: vmHubDiskName
+          name: vmMilanDisk[i].name
           createOption: 'Attach'
-          managedDisk: { id: vmHubDisk.id }
+          managedDisk: { id: vmMilanDisk[i].id }
         }
       ]
     }
     osProfile: {
-      computerName: vmHubName
-      adminUsername: username
-      adminPassword: password
+      computerName: 'milan-${i}-vm'
+      adminUsername: vmUsername
+      adminPassword: vmPassword
       windowsConfiguration: { enableAutomaticUpdates: true }
     }
     networkProfile: {
       networkInterfaces: [ {
-          id: vmHubNIC.id
+          id: vmMilanNIC[i].id
         }
       ]
     }
   }
-}
+}]
 
-resource vmHubAutoshutdown 'microsoft.devtestlab/schedules@2018-09-15' = if (deployVmHub) {
-  name: vmHubAutoshutdownName
-  location: location
-  properties: {
-    status: 'Enabled'
-    taskType: 'ComputeVmShutdownTask'
-    timeZoneId: 'UTC'
-    dailyRecurrence: { time: '20:00' }
-    notificationSettings: { status: 'Disabled' }
-    targetResourceId: vmHub.id
-  }
-}
-//END VM HUB
-*/

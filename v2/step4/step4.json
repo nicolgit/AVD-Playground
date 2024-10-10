@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.30.23.60470",
-      "templateHash": "15129065610904719986"
+      "templateHash": "15770405812037888121"
     }
   },
   "parameters": {
@@ -15,15 +15,23 @@
     },
     "romePoolSize": {
       "type": "int",
+      "defaultValue": 1
+    },
+    "milanPoolSize": {
+      "type": "int",
       "defaultValue": 2
+    },
+    "vmSku": {
+      "type": "string",
+      "defaultValue": "Standard_D2_v5"
     }
   },
   "variables": {
     "vnetName": "avd-playground-net",
     "romeSubnetName": "rome-hosts-subnet",
+    "milanSubnetName": "milan-hosts-subnet",
     "vmUsername": "nicola",
     "vmPassword": "password.123",
-    "vmSku": "Standard_D2s_v3",
     "imagePublisher": "MicrosoftWindowsDesktop",
     "imageOffer": "office-365",
     "imageSku": "win11-24h2-avd-m365",
@@ -80,7 +88,7 @@
       "location": "[parameters('location')]",
       "properties": {
         "hardwareProfile": {
-          "vmSize": "[variables('vmSku')]"
+          "vmSize": "[parameters('vmSku')]"
         },
         "storageProfile": {
           "imageReference": {
@@ -120,6 +128,98 @@
         "[resourceId('Microsoft.Compute/disks', format('rome{0}disk', range(0, parameters('romePoolSize'))[range(0, parameters('romePoolSize'))[copyIndex()]]))]",
         "[resourceId('Microsoft.Compute/disks', format('rome{0}disk', range(0, parameters('romePoolSize'))[range(0, parameters('romePoolSize'))[copyIndex()]]))]",
         "[resourceId('Microsoft.Network/networkInterfaces', format('rome-{0}-nic', range(0, parameters('romePoolSize'))[range(0, parameters('romePoolSize'))[copyIndex()]]))]"
+      ]
+    },
+    {
+      "copy": {
+        "name": "vmMilanDisk",
+        "count": "[length(range(0, parameters('milanPoolSize')))]"
+      },
+      "type": "Microsoft.Compute/disks",
+      "apiVersion": "2019-07-01",
+      "name": "[format('milan{0}disk', range(0, parameters('milanPoolSize'))[copyIndex()])]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "creationData": {
+          "createOption": "Empty"
+        },
+        "diskSizeGB": 128
+      }
+    },
+    {
+      "copy": {
+        "name": "vmMilanNIC",
+        "count": "[length(range(0, parameters('milanPoolSize')))]"
+      },
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2022-11-01",
+      "name": "[format('milan-{0}-nic', range(0, parameters('milanPoolSize'))[copyIndex()])]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "subnet": {
+                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetName'), variables('milanSubnetName'))]"
+              },
+              "privateIPAllocationMethod": "Dynamic"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "copy": {
+        "name": "vmMilan",
+        "count": "[length(range(0, parameters('milanPoolSize')))]"
+      },
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2022-11-01",
+      "name": "[format('milan-{0}-vm', range(0, parameters('milanPoolSize'))[copyIndex()])]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('vmSku')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('imagePublisher')]",
+            "offer": "[variables('imageOffer')]",
+            "sku": "[variables('imageSku')]",
+            "version": "[variables('imageVersion')]"
+          },
+          "dataDisks": [
+            {
+              "lun": 0,
+              "name": "[format('milan{0}disk', range(0, parameters('milanPoolSize'))[range(0, parameters('milanPoolSize'))[copyIndex()]])]",
+              "createOption": "Attach",
+              "managedDisk": {
+                "id": "[resourceId('Microsoft.Compute/disks', format('milan{0}disk', range(0, parameters('milanPoolSize'))[range(0, parameters('milanPoolSize'))[copyIndex()]]))]"
+              }
+            }
+          ]
+        },
+        "osProfile": {
+          "computerName": "[format('milan-{0}-vm', range(0, parameters('milanPoolSize'))[copyIndex()])]",
+          "adminUsername": "[variables('vmUsername')]",
+          "adminPassword": "[variables('vmPassword')]",
+          "windowsConfiguration": {
+            "enableAutomaticUpdates": true
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', format('milan-{0}-nic', range(0, parameters('milanPoolSize'))[range(0, parameters('milanPoolSize'))[copyIndex()]]))]"
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/disks', format('milan{0}disk', range(0, parameters('milanPoolSize'))[range(0, parameters('milanPoolSize'))[copyIndex()]]))]",
+        "[resourceId('Microsoft.Compute/disks', format('milan{0}disk', range(0, parameters('milanPoolSize'))[range(0, parameters('milanPoolSize'))[copyIndex()]]))]",
+        "[resourceId('Microsoft.Network/networkInterfaces', format('milan-{0}-nic', range(0, parameters('milanPoolSize'))[range(0, parameters('milanPoolSize'))[copyIndex()]]))]"
       ]
     }
   ]

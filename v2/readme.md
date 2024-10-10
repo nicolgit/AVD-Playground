@@ -26,21 +26,26 @@ this step creates:
 * wait ADDS provisioning
 * fix virtual network DNS as reccomended by ADDS
 * create user01 user02 and user03 AND add user01 to ADDS management group: Open azure cloud shell and type the following
-  * `source 00-variables-duckiesfarm.sh`* 
+  * `source 00-variables-duckiesfarm.sh`
   * `source 01-users.sh `
 
-# step 4 *manual*
+# step 4
 * create rome pool with 1 machine
 * create milan pool with 2 machines
 
+# step 5 (TODO)
 
-# step 5 
-...
+ https://tighetec.co.uk/2022/07/01/avd-deployment-azure-ad-join-bicep/ 
+
+* add all machines to Entra ID Domain Services
+* add rome machines to Rome host pool
+* add milan machines to Milan host pool
 
 # step 99 delete everything
 execute `source 99-delete.sh` to delete users, groups and "avd-playground" resource group 
 
 # applications
+
 ## appattach
 * concept: <https://learn.microsoft.com/en-us/azure/virtual-desktop/publish-applications-stream-remoteapp?tabs=portal>
 * howto: <https://learn.microsoft.com/en-us/azure/virtual-desktop/app-attach-setup?tabs=portal&pivots=app-attach>
